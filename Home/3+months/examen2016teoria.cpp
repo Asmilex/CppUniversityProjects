@@ -8,7 +8,7 @@ using namespace std;
 
 
 class SecuenciaEnteros{
-private: ?
+private: 
 public: 
     //Ejercicio 1
     /**
@@ -47,4 +47,4 @@ int main(){
     SecuenciaEnteros secuencia1
     SecuenciaEnteros secuencia2 = secuencia1.BusquedaHaciaArriba(p,n);
 
-}
+} 
