@@ -19,5 +19,5 @@ void mayorSecuenciaMonotona(const int array[], int util, int salida[], int & uti
 }
 
 int main(){
-    cout <<"prueba";
+    cout <<"Incompleto";
 }
