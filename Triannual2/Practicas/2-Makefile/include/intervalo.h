@@ -72,6 +72,8 @@ public:
      */
     bool estaDentro(double n)const ;
 
+    friend Intervalo interseccion (const Intervalo &, const Intervalo &);
+
 
 };
 

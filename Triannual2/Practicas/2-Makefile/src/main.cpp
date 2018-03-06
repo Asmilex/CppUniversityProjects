@@ -56,5 +56,15 @@ int main(){
 		}
 		cout << endl;
 	}
+
+	for (unsigned int i=1; i < nintervalos; i++){
+		cout << "La intersección de ";
+		escribir(interv[i-1]);
+		cout <<" y de ";
+		escribir(interv[i]);
+		cout <<" es ";
+		escribir(interseccion(interv[i-1], interv[i]));
+		cout <<endl;
+	}
 	return 0; 
 }

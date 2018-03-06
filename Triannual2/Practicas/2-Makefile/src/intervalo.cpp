@@ -69,11 +69,73 @@ bool Intervalo::estaDentro(double n) const{
         return false;
 };
 
+Intervalo interseccion(const Intervalo & i1, const Intervalo & i2){
+    bool cerradoInf_intersec, cerradoSup_intersec;
+    double cotaInf_intersec, cotaSup_intersec;
+    bool es_vacio=0;
+
+    //Ordenemos los intervalos
+    if (i2.cotaInf < i1.cotaInf){
+        Intervalo iaux(i1);
+    }
+
+    //Veamos si es posible hacer la intersección
+    if (i1.cotaSup < i2.cotaInf) 
+        es_vacio = 1;
+    
+    if (i1.cotaSup == i2.cotaInf && (i1.cerradoSup == 0 || i2.cerradoInf == 0))
+        es_vacio = 1;
+    
+    if (es_vacio){
+        Intervalo ir;
+        return ir;
+    }
+
+    //Minorante
+    if (i1.cotaInf > i2.cotaInf){
+        cerradoInf_intersec = i1.cerradoInf;
+        cotaInf_intersec = i1.cotaInf;
+    }
+    if (i1.cotaInf < i2.cotaInf){
+        cerradoInf_intersec = i2.cerradoInf;
+        cotaInf_intersec = i2.cotaInf;
+    }
+    else{
+        cotaInf_intersec = i1.cotaInf;
+
+        if (i1.cerradoInf != i2.cerradoInf)
+            cerradoInf_intersec = 0;
+        else
+            cerradoInf_intersec = i1.cerradoInf;
+    }
+
+    //Mayorante
+    if (i1.cotaSup < i2.cotaSup){
+        cerradoSup_intersec = i1.cerradoSup;
+        cotaSup_intersec = i1.cotaSup;
+    }
+    if (i1.cotaSup > i2.cotaSup){
+        cerradoSup_intersec = i2.cerradoSup;
+        cotaSup_intersec = i2.cotaSup;
+    }
+    else{
+        cotaSup_intersec = i1.cotaSup;
+
+        if (i1.cerradoSup != i2.cerradoSup)
+            cerradoSup_intersec = 0;
+        else
+            cerradoSup_intersec = i1.cerradoSup;
+    }
+
+    Intervalo ir(cotaInf_intersec, cotaSup_intersec, cerradoInf_intersec, cerradoSup_intersec);
+    return ir;
+}
+
 void escribir(const Intervalo & i){
     if (i.esCerradoInf())
-        cout <<"\n[";
+        cout <<"[";
     else
-        cout <<"\n(";
+        cout <<"(";
     cout <<i.getCotaInf()<<","<<i.getCotaSup();
     if (i.esCerradoSup())
         cout <<"]";
