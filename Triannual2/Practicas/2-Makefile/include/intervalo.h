@@ -71,9 +71,12 @@ public:
      * @return @retval true si el valor @p n pertenece al intervalo, @retval false en otro caso 
      */
     bool estaDentro(double n)const ;
-
+    /**
+     * @brief: Interseca los intervalos proporcionados
+     * @param: intervalos a intersecar
+     * @return: Intervalo intersecado 
+     */
     friend Intervalo interseccion (const Intervalo &, const Intervalo &);
-
 
 };
 

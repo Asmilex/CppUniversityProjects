@@ -52,7 +52,7 @@ bool Intervalo::esCerradoInf() const{
 };
 
 bool Intervalo::esVacio() const{
-    if (cotaInf == cotaSup && cerradoInf == cerradoSup & cerradoInf == false)
+    if (cotaInf == cotaSup && cerradoInf == cerradoSup && cerradoInf == false)
         return true;
     else
         return false;
@@ -73,11 +73,6 @@ Intervalo interseccion(const Intervalo & i1, const Intervalo & i2){
     bool cerradoInf_intersec, cerradoSup_intersec;
     double cotaInf_intersec, cotaSup_intersec;
     bool es_vacio=0;
-
-    //Ordenemos los intervalos
-    if (i2.cotaInf < i1.cotaInf){
-        Intervalo iaux(i1);
-    }
 
     //Veamos si es posible hacer la intersección
     if (i1.cotaSup < i2.cotaInf) 
@@ -129,6 +124,11 @@ Intervalo interseccion(const Intervalo & i1, const Intervalo & i2){
 
     Intervalo ir(cotaInf_intersec, cotaSup_intersec, cerradoInf_intersec, cerradoSup_intersec);
     return ir;
+
+    //Comentario para la correción: no he conseguido arreglar lo de los ifs que me comentó en clase. La verdad es que 
+    //tampoco he tenido mucho tiempo para mirarlo, pero la única solución que se me ocurre es alternar todos los ifs 
+    // con || (ORs), rehaciendo todas las condiciones cambiando inferiores por superiores, y > por < y viceversa.
+    //¿Es así como se haría? En clase le pregunto si quiere, no hace falta que sea por correo.
 }
 
 void escribir(const Intervalo & i){

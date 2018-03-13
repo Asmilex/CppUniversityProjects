@@ -4,7 +4,6 @@
  *
  */
 #include <iostream>
-#include <assert.h>
 #include "intervalo.h"
 using namespace std;
 
