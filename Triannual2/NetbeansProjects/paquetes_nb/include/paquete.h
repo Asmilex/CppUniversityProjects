@@ -45,7 +45,7 @@ public:
    * @brief Actualiza el ID del paquete
    * @param id El nuevo ID
    */
-   void setId(int id);
+   void setId(int id);  
 
    /**
    * @brief Consulta el ID del paquete
@@ -57,7 +57,7 @@ public:
    * @brief Actualiza el peso del paquete
    * @param peso El nuevo peso
    */
-   void setPeso(int peso);
+   void setPeso(double peso);
    /**
    * @brief Consulta el peso del paquete
    * @return El peso del paquete
