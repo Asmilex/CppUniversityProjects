@@ -11,18 +11,18 @@
  * @brief Gestión de paquetes básica para envío
  */
 class Paquete{
-public:
+public:                           
    static const long _SIN_IDENT = -1;			///< ID Nulo
 	   
-   static const float _TARIFA1 = 12.97;		///< Tarifas
-   static const float _TARIFA2 = 16.83;		///< Tarifas
-   static const float _TARIFA3 = 29.32;		///< Tarifas
+   static const float _TARIFA1  = 12.97;		///< Tarifas
+   static const float _TARIFA2  = 16.83;		///< Tarifas
+   static const float _TARIFA3  = 29.32;		///< Tarifas
 
-   static const int _RANGO1 = 2;					///< Rango de tarifas
-   static const int _RANGO2 = 5;					///< Rango de tarifas
-   static const int _RANGO3 = 15;				///< Rango de tarifas
+   static const int _RANGO1     = 2;					///< Rango de tarifas
+   static const int _RANGO2     = 5;					///< Rango de tarifas
+   static const int _RANGO3     = 15;				///< Rango de tarifas
 
-   static const float _IVA = 0.21;				///< IVA aplicable
+   static const float _IVA      = 0.21;				///< IVA aplicable
 
    /**
    * @brief Constructor sin parámetros
