@@ -14,15 +14,15 @@ class Paquete{
 public:                           
    static const long _SIN_IDENT = -1;			///< ID Nulo
 	   
-   static const float _TARIFA1  = 12.97;		///< Tarifas
-   static const float _TARIFA2  = 16.83;		///< Tarifas
-   static const float _TARIFA3  = 29.32;		///< Tarifas
+   static constexpr float _TARIFA1 = 12.97;		///< Tarifas
+   static constexpr float _TARIFA2 = 16.83;		///< Tarifas
+   static constexpr float _TARIFA3 = 29.32;		///< Tarifas
 
-   static const int _RANGO1     = 2;					///< Rango de tarifas
-   static const int _RANGO2     = 5;					///< Rango de tarifas
-   static const int _RANGO3     = 15;				///< Rango de tarifas
+   static const int _RANGO1 = 2;					///< Rango de tarifas
+   static const int _RANGO2 = 5;					///< Rango de tarifas
+   static const int _RANGO3 = 15;				///< Rango de tarifas
 
-   static const float _IVA      = 0.21;				///< IVA aplicable
+   static constexpr float _IVA = 0.21;				///< IVA aplicable
 
    /**
    * @brief Constructor sin parámetros
@@ -127,10 +127,10 @@ private:
    int _ancho;						 ///< Ancho en cm
    int _alto;						 ///< Alto en cm
 
-   static const double _FACTORVOLUMETRICO = 6000.0;	 /// Empleado por la empresa de paquetería
+   static constexpr double _FACTORVOLUMETRICO = 6000.0;	 /// Empleado por la empresa de paquetería
 
 
-   };
+};
 
 #endif 
 

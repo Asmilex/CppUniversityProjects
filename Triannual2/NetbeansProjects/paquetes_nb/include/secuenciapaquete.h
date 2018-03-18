@@ -31,7 +31,7 @@ bool addSecuenciaPaq(Paquete s[], int & util, const Paquete p);
  * @param util Número de componentes útiles de @a s 
  * @return El precio total de la lista de paquetes
  */
-double getTotalSecuenciaPaq(Paquete s[], const int util);
+double getTotalSecuenciaPaq(const Paquete s[], const int util);
 
 /**
  * @brief Devuelve el paquete con mayor volumen.
@@ -39,7 +39,7 @@ double getTotalSecuenciaPaq(Paquete s[], const int util);
  * @param util Número de componentes útiles de @a s 
  * @return El paquete
  */
-Paquete paqueteMayorSecuenciaPaq(Paquete s[], const int util);
+Paquete paqueteMayorSecuenciaPaq(const Paquete s[], const int util);
 
 /**
  * @brief Calcula la media de precio facturado.
@@ -47,7 +47,7 @@ Paquete paqueteMayorSecuenciaPaq(Paquete s[], const int util);
  * @param util Número de componentes útiles de @a s 
  * @return La media de sprecio
  */ 
-double getMediaSecuenciaPaq( Paquete s[],  const int util);
+double getMediaSecuenciaPaq(const Paquete s[],  const int util);
 
 /**
  * @brief Devuelve cuántos paquetes son mayores que un valor dado en altura
@@ -56,7 +56,7 @@ double getMediaSecuenciaPaq( Paquete s[],  const int util);
  * @param altura en cm
  * @return El número de paquetes
  */
-int numPaqueteAltosSecuenciaPaq( Paquete s[],  const int util, int altura);
+int numPaqueteAltosSecuenciaPaq(const Paquete s[],  const int util, int altura);
 
 /**
  * @brief Devuelve el numero de paquetes que tienen precio superior a la media.
@@ -64,6 +64,6 @@ int numPaqueteAltosSecuenciaPaq( Paquete s[],  const int util, int altura);
  * @param util Número de componentes útiles de @a s 
  * @return El número de paquetes
  */
-int numPaquetesSuperiorSecuenciaPaq( Paquete s[], const int util);
+int numPaquetesSuperiorSecuenciaPaq(const Paquete s[], const int util);
 #endif 
 
