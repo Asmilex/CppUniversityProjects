@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=paquetes_nb
+PROJECTNAME=geometria2d
 
 # Active Configuration
 DEFAULTCONF=Debug

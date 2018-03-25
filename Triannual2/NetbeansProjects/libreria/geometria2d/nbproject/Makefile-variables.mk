@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=GNU-Linux
 CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-Linux
-CND_ARTIFACT_NAME_Debug=paquetes_nb
-CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/paquetes_nb
+CND_ARTIFACT_NAME_Debug=libgeometria2d.a
+CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/libgeometria2d.a
 CND_PACKAGE_DIR_Debug=dist/Debug/GNU-Linux/package
-CND_PACKAGE_NAME_Debug=paquetesnb.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/paquetesnb.tar
+CND_PACKAGE_NAME_Debug=geometria2d.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/geometria2d.tar
 # Release configuration
 CND_PLATFORM_Release=GNU-Linux
 CND_ARTIFACT_DIR_Release=dist/Release/GNU-Linux
-CND_ARTIFACT_NAME_Release=paquetes_nb
-CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/paquetes_nb
+CND_ARTIFACT_NAME_Release=libgeometria2d.a
+CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/libgeometria2d.a
 CND_PACKAGE_DIR_Release=dist/Release/GNU-Linux/package
-CND_PACKAGE_NAME_Release=paquetesnb.tar
-CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/paquetesnb.tar
+CND_PACKAGE_NAME_Release=geometria2d.tar
+CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/geometria2d.tar
 #
 # include compiler specific variables
 #

@@ -5,7 +5,6 @@
 **/
 #include "secuenciapaquete.h"
 #include "paquete.h"
-#include <iostream>
 
 void cleanSecuenciaPaq(Paquete s[], int & util){
     for (unsigned int i=0; i<util; i++)
@@ -37,7 +36,7 @@ double getTotalSecuenciaPaq(const Paquete s[], const int util){
 Paquete paqueteMayorSecuenciaPaq(const Paquete s[], const int util){
     int max = 0;
     
-    for (unsigned int i=0; i<util; i++)
+    for (unsigned int i=0; i<=util; i++)
         if (s[i].getVolumen() > max)
             max = i;
     
@@ -53,7 +52,6 @@ int numPaqueteAltosSecuenciaPaq(const Paquete s[], const int util, int altura){
     int paquetes_mayores = 0;
 
     for (unsigned int i=0; i<util; i++){
-        std::cout <<s[i].getAlto()<<","<<paquetes_mayores<<std::endl;
         if (s[i].getAlto() > altura)        //Entiendo mayor estricto según la documentación
             paquetes_mayores++;
     }

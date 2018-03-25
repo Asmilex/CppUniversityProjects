@@ -73,7 +73,7 @@ int main() {
         Paquete grande(paqueteMayorSecuenciaPaq(envios, enviosUtiles)); 
         cout <<  SALIDATOTAL << getTotalSecuenciaPaq(envios, enviosUtiles) << endl;
         cout <<  SALIDAMEDIA << getMediaSecuenciaPaq(envios, enviosUtiles) << endl;
-        cout <<  SALIDANUMPACKMASALTOS << numPaqueteAltosSecuenciaPaq(envios, enviosUtiles, 50) << endl; 
+        cout <<  SALIDANUMPACKMASALTOS << numPaqueteAltosSecuenciaPaq(envios, enviosUtiles, 100) << endl; 
         cout <<  SALIDANUMPACK << numPaquetesSuperiorSecuenciaPaq(envios, enviosUtiles) << endl;
         cout <<  SALIDAIDMASVOL << grande.getId() << endl;
         cout <<  SALIDAMASVOL << grande.getVolumen() << endl;
