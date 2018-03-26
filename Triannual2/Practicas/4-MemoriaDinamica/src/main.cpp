@@ -14,9 +14,20 @@ int main() {
     int frec, nv1, nv2, nv3;
     Bigrama *v1=NULL, *v2=NULL, *v3=NULL;
     
+    cout <<"Introduce el ńumero de bigramas del primer vector: ";
+    cin >>frec;
+    
+    char * cadena_temp = 0;
+    cadena_temp = new char [3];
+    
     // Lee número de elementos del primer vector
+    cout <<"\nIntroduce el número de bigramas del segundo vector: ";
+    cin >>nv1;
+    
     // Lee el primer vector
-   
+
+        
+
     // Lee número de elementos del segundo vector
     // Lee el segundo vector
     cout << endl <<"Contenido de v1" << endl; imprimeBigramas(v1, nv1);
