@@ -9,16 +9,16 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=GNU-Linux
 CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-Linux
-CND_ARTIFACT_NAME_Debug=ordenabigramas_nb
-CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/ordenabigramas_nb
+CND_ARTIFACT_NAME_Debug=ordenabigramas
+CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/ordenabigramas
 CND_PACKAGE_DIR_Debug=dist/Debug/GNU-Linux/package
 CND_PACKAGE_NAME_Debug=ordenabigramasnb.tar
 CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/ordenabigramasnb.tar
 # Release configuration
 CND_PLATFORM_Release=GNU-Linux
 CND_ARTIFACT_DIR_Release=dist/Release/GNU-Linux
-CND_ARTIFACT_NAME_Release=ordenabigramas_nb
-CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/ordenabigramas_nb
+CND_ARTIFACT_NAME_Release=ordenabigramas
+CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/ordenabigramas
 CND_PACKAGE_DIR_Release=dist/Release/GNU-Linux/package
 CND_PACKAGE_NAME_Release=ordenabigramasnb.tar
 CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/ordenabigramasnb.tar

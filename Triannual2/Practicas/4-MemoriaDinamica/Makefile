@@ -131,9 +131,10 @@ zip: clobber
 
 tests : testv
 
-test1:
+test1: 
 	dist/Debug/GNU-Linux/ordenabigramas < data/ordenabigramas.txt
 testv:
+	make
 	valgrind --leak-check=full dist/Debug/GNU-Linux/ordenabigramas < data/ordenabigramas.txt
 # include project implementation makefile
 include nbproject/Makefile-impl.mk

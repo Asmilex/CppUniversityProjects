@@ -28,12 +28,13 @@ void Bigrama::setBigrama(const char cadena[]){
     int comprobador  = 0;
     bool interruptor = true;
 
-    for (comprobador; interruptor == true && comprobador < 2; comprobador++)
-        if (this->_bigrama[comprobador] == '\0' || cadena[comprobador] == '\0')
-            interruptor = false;
+    for (comprobador; comprobador < 2; comprobador++)
+        if (cadena[comprobador] == '\0')
+            interruptor = false; 
 
-    if (!interruptor)
-        cout <<"Longitud del bigrama inválida para la cadena recibida";
+
+    if (interruptor == false)
+        cout <<"Longitud del bigrama inválida para la cadena recibida"<<endl;
     else{
         for (unsigned int i=0; i < 2; i++)
             this->_bigrama[i] = cadena [i];
@@ -56,7 +57,8 @@ void ordenaAscBigr(Bigrama * v, int n){
     Bigrama Intercambio;
     for (int i=0; i<n; i++)
         for (int j=0; j<n; j++)
-            if (v[j].getBigrama() < v[i].getBigrama()){
+            if (strcmp(v[j].getBigrama(),v[i].getBigrama()) > 0){
+                                
                 Intercambio.setFrecuencia(v[i].getFrecuencia());
                 Intercambio.setBigrama(v[i].getBigrama());
 
@@ -73,7 +75,7 @@ void ordenaAscFrec(Bigrama * v, int n){
     Bigrama Intercambio;
     for (int i=0; i<n; i++)
         for (int j=0; j<n; j++)
-            if (v[j].getFrecuencia() < v[i].getFrecuencia()){
+            if (v[j].getFrecuencia() > v[i].getFrecuencia()){
                 Intercambio.setFrecuencia(v[i].getFrecuencia());
                 Intercambio.setBigrama(v[i].getBigrama());
 
@@ -86,12 +88,31 @@ void ordenaAscFrec(Bigrama * v, int n){
 }
 
 void sumaBigramas(const Bigrama * v1, int nv1, const Bigrama * v2, int nv2, Bigrama *& res, int & nres){
-    nres = nv1 + nv2;
-    for (int i=0; i<nres; i++){
-        if (i<nv1)
-            res[i] = v1[i];
-        else
-            res[i] = v2[i-nv1];
+    Bigrama * cadena1 = new Bigrama [nv1];
+    Bigrama * cadena2 = new Bigrama [nv2];
+    
+    //Dado que se pasa de forma constante, creemos un nuevo array para ordenarlos
+    
+    for (unsigned int i=0; i<nv1; i++){     //por pre, nv1 = nv2
+        cadena1[i].setBigrama(v1[i].getBigrama());
+        cadena1[i].setFrecuencia(v1[i].getFrecuencia());
+
+        cadena2[i].setBigrama(v2[i].getBigrama());
+        cadena2[i].setFrecuencia(v2[i].getFrecuencia());
 
     }
+
+    ordenaAscBigr(cadena1, nv1);
+    ordenaAscBigr(cadena2, nv2);
+    
+    nres = nv1;                             //por pre
+    
+    for (unsigned int i=0; i<nres; i++){
+        res[i].setFrecuencia(cadena1[i].getFrecuencia() + cadena2[i].getFrecuencia());
+        res[i].setBigrama(cadena1[i].getBigrama());
+
+    }
+    delete [] cadena1;
+    delete [] cadena2;
+    
 }
