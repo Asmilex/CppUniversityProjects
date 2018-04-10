@@ -25,12 +25,11 @@ int Bigrama::getFrecuencia() const{
 };
 
 void Bigrama::setBigrama(const char cadena[]){
-    int comprobador  = 0;
-    bool interruptor = true;
+    bool interruptor = false;
 
-    for (comprobador; comprobador < 2; comprobador++)
-        if (cadena[comprobador] == '\0')
-            interruptor = false; 
+    //Comprobación de longitud correcta
+    if (cadena[2] == '\0')
+        interruptor = true; 
 
 
     if (interruptor == false)
@@ -68,7 +67,6 @@ void ordenaAscBigr(Bigrama * v, int n){
                 v[j].setFrecuencia(Intercambio.getFrecuencia());
                 v[j].setBigrama(Intercambio.getBigrama());
             }
-
 }
 
 void ordenaAscFrec(Bigrama * v, int n){
@@ -88,31 +86,10 @@ void ordenaAscFrec(Bigrama * v, int n){
 }
 
 void sumaBigramas(const Bigrama * v1, int nv1, const Bigrama * v2, int nv2, Bigrama *& res, int & nres){
-    Bigrama * cadena1 = new Bigrama [nv1];
-    Bigrama * cadena2 = new Bigrama [nv2];
-    
-    //Dado que se pasa de forma constante, creemos un nuevo array para ordenarlos
-    
-    for (unsigned int i=0; i<nv1; i++){     //por pre, nv1 = nv2
-        cadena1[i].setBigrama(v1[i].getBigrama());
-        cadena1[i].setFrecuencia(v1[i].getFrecuencia());
-
-        cadena2[i].setBigrama(v2[i].getBigrama());
-        cadena2[i].setFrecuencia(v2[i].getFrecuencia());
-
-    }
-
-    ordenaAscBigr(cadena1, nv1);
-    ordenaAscBigr(cadena2, nv2);
-    
     nres = nv1;                             //por pre
     
     for (unsigned int i=0; i<nres; i++){
-        res[i].setFrecuencia(cadena1[i].getFrecuencia() + cadena2[i].getFrecuencia());
-        res[i].setBigrama(cadena1[i].getBigrama());
-
+        res[i].setFrecuencia(v1[i].getFrecuencia() + v2[i].getFrecuencia());
+        res[i].setBigrama(v1[i].getBigrama());
     }
-    delete [] cadena1;
-    delete [] cadena2;
-    
 }

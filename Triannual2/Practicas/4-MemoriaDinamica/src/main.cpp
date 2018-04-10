@@ -19,6 +19,7 @@ int main() {
     cin >>nv1;
 
     v1 = new Bigrama [nv1];
+    
     // Lee el primer vector
     char * cadena_temp = new char [3];
         
@@ -48,10 +49,14 @@ int main() {
    
     // Posibles operaciones intermedias sobre v1 o v2 
     
+    ordenaAscBigr(v1,nv1);
+    ordenaAscBigr(v2,nv2);
+
     v3 = new Bigrama[nv1];
-    
+
     sumaBigramas(v1, nv1, v2, nv2, v3, nv3);
     ordenaAscFrec(v3, nv3);
+    
     cout << endl <<"Contenido de v3" << endl; imprimeBigramas(v3, nv3);
 
     // Limpieza de memoria
