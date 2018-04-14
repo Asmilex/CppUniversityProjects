@@ -7,6 +7,7 @@
 #define IDIOMA_H
 
 #include "Bigrama.h"
+#include <string>
 
 /**
  * @class Idioma
@@ -52,13 +53,13 @@ public:
      * @brief Consulta el ID del idioma
      * @return ID del idioma
      */
-    std::string getIdioma() const;  
+    inline std::string getIdioma() const {return _idioma; };  
     
     /**
      * @brief Establece el ID del idioma
      * @param id Nuevo ID del idioma
      */
-    void setIdioma(const std::string& id);
+    inline void setIdioma(const std::string& id){this->_idioma = id;};
     
     /**
      * @brief Consulta la lista de bigramas

@@ -8,6 +8,7 @@
 #include "Bigrama.h"
 #include "Idioma.h"
 using namespace std;
+
 int main(int narg, char * args[]) {
     /// Completar variables
     
