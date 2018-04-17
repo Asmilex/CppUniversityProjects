@@ -8,7 +8,6 @@
 
 #include "Bigrama.h"
 #include <string>
-
 /**
  * @class Idioma
  * @brief Representa el conjunto los bigramas asociados a un idioma junto con el 

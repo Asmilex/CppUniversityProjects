@@ -1,4 +1,4 @@
-/** 
+/**
  * @file Idioma.cpp
  * @author DECSAI
  * @warning Código incompleto. Implementar la clase completa
@@ -12,7 +12,7 @@
 
 using namespace std;
 
-//Constructores 
+//Constructores
 Idioma::Idioma(){
     this->_idioma    = "NULL";
     this->_conjunto  = nullptr;
@@ -21,46 +21,46 @@ Idioma::Idioma(){
 
 Idioma::Idioma(int nbg){
     this->_idioma    = "NULL";
-    this->_conjunto  = nullptr;
-    this->_nBigramas = nbg;
+    reservarMemoria(nbg);
 }
 
 
 void Idioma::reservarMemoria(int n){
     if (this->_conjunto != nullptr)
-        delete [] this->_conjunto;
-    
+        this->liberarMemoria();
+
     this->_nBigramas = n;
     this->_conjunto = new Bigrama [this->_nBigramas];
 
 }
 
 void Idioma::ampliarMemoria(int n){
-    //Copia de la memoria a uno emporal
-    Bigrama * Intercambio = new Bigrama [this->_nBigramas];
+    //Copia de la memoria a uno temporal
+    if (n > 0 && this->_conjunto != nullptr){
+        Bigrama * Intercambio = new Bigrama [this->_nBigramas];
+        
+        for (unsigned int i=0; i < this->_nBigramas; i++){
+            Intercambio[i].setFrecuencia(this->_conjunto[i].getFrecuencia());
+            Intercambio[i].setBigrama(this->_conjunto[i].getBigrama());
+        }
 
-    for (unsigned int i=0; i < this->_nBigramas; i++){
-        Intercambio[i].setFrecuencia(this->_conjunto[i].getFrecuencia());
-        Intercambio[i].setBigrama(this->_conjunto[i].getBigrama());
+        //Realocación
+        delete [] this->_conjunto;
+        this->_nBigramas = this->_nBigramas + n;
+        this->_conjunto = new Bigrama [this->_nBigramas];
+
+        for (unsigned int i=0; i < this->_nBigramas; i++){
+            this->_conjunto[i].setFrecuencia(Intercambio[i].getFrecuencia());
+            this->_conjunto[i].setBigrama(Intercambio[i].getBigrama());
+        }
+
+        delete [] Intercambio;
     }
-
-    //Realocación
-    delete [] this->_conjunto;
-    this->_nBigramas = this->_nBigramas + n;
-    this->_conjunto = new Bigrama [this->_nBigramas];
-    
-    for (unsigned int i=0; i < this->_nBigramas; i++){
-        this->_conjunto[i].setFrecuencia(Intercambio[i].getFrecuencia());
-        this->_conjunto[i].setBigrama(Intercambio[i].getBigrama());
-    }
-
-    delete [] Intercambio;
 }
 
 void Idioma::liberarMemoria(){
     this->_nBigramas = -1;
     delete [] this->_conjunto;
-
 }
 
 Bigrama Idioma::getPosicion(int p) const{
@@ -80,16 +80,18 @@ void Idioma::setPosicion(int p, const Bigrama & bg){
 }
 
 int Idioma::findBigrama(const string bg) const {
+    //TODO bg es string, getBigrama es char *. Convierte bg a la otra basura
+    
     for (unsigned int i=0; i < this->_nBigramas; i++){
         if (this->_conjunto[i].getBigrama() == bg)
             return i;
     }
-    
+
     return -1;
 }
 
 void Idioma::addBigrama(const Bigrama & bg){
-    int posicion = Idioma::findBigrama(bg.getBigrama()); 
+    int posicion = Idioma::findBigrama(bg.getBigrama());
     if (posicion > -1)
         this->_conjunto[posicion].setFrecuencia(bg.getFrecuencia() + this->_conjunto[posicion].getFrecuencia());
     else{
@@ -99,10 +101,40 @@ void Idioma::addBigrama(const Bigrama & bg){
     }
 }
 
-bool Idioma::cargarDeFichero(const char * fichero){
-
+bool Idioma::cargarDeFichero(const char * fichero){ //El argumento es el fichero a leer
+    //Comprobar que todos los elementos leídos son correctos
+    /* entrada >> codificacion. Este realmente no hace fala hacerlo. Pero lo hago porque puedo
+    entrada >> idioma
+    entrada >> dimension
+    entrada >> bigramas 
+    
+    Controlar a los cyka blyar
+    Mirar que existe el fichero antes de ponerte a hacer nah. Ej: picolini*/
 }
 
 bool Idioma::addDeFichero(const char * fichero){
-    
+
 }
+
+/*
+    Voy a copiar ahora lo que estamos haciendo en clase. Lo dejo como comentario
+    Se pueden usar rutas relativas y absolutas dentro de la función .open()
+    Se pueden usar strings para especificar los archivos:
+        string archivo = "Cosa";
+        ifstream entrada;
+        entrada.open(archivo);
+    Se puede capturar errores de istream con:
+        if (entrada)
+            cout <<Funciona
+        if (!entrada)
+            cout <<No fufa
+    Puedes detectar si te has quedado sin caracteres que leer dentro de un archivo con repetidos if (entrada)
+
+    Traducciones de tipos: atof
+
+    Comprobar que estemos tratando los mismos idiomas
+*/
+
+
+
+
