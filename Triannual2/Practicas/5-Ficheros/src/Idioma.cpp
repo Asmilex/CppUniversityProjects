@@ -110,10 +110,11 @@ bool Idioma::cargarDeFichero(const char * fichero){ //El argumento es el fichero
     
     Controlar a los cyka blyar
     Mirar que existe el fichero antes de ponerte a hacer nah. Ej: picolini*/
+
 }
 
 bool Idioma::addDeFichero(const char * fichero){
-
+    //Suma las frecuencias de ficheros
 }
 
 /*
@@ -134,7 +135,4 @@ bool Idioma::addDeFichero(const char * fichero){
 
     Comprobar que estemos tratando los mismos idiomas
 */
-
-
-
 

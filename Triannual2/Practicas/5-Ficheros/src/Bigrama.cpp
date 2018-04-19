@@ -15,11 +15,11 @@ Bigrama::Bigrama() {
     _frecuencia = -1;
 }
 
-const char * Bigrama::getBigrama() const{
+inline const char * Bigrama::getBigrama() const{
     return this->_bigrama;
 }
 
-int Bigrama::getFrecuencia() const{
+inline int Bigrama::getFrecuencia() const{
     return this->_frecuencia;
 };
 
@@ -30,17 +30,17 @@ void Bigrama::setBigrama(const char cadena[]){
     if (cadena[2] == '\0')
         interruptor = true; 
 
-
+    //Notas: Cambios en esta función con motivo de optimizar
     if (interruptor == false)
         cout <<"Longitud del bigrama inválida para la cadena recibida"<<endl;
     else{
-        for (unsigned int i=0; i < 2; i++)
-            this->_bigrama[i] = cadena [i];
+        this->_bigrama[0] = cadena [0];
+        this->_bigrama[1] = cadena [1];
         this->_bigrama[2] = '\0';
     }
 };
 
-void Bigrama::setFrecuencia(int frec){
+inline void Bigrama::setFrecuencia(int frec){
     this->_frecuencia = frec;
 }
 
