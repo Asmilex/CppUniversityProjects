@@ -102,13 +102,58 @@ void Idioma::addBigrama(const Bigrama & bg){
 }
 
 bool Idioma::cargarDeFichero(const char * fichero){ //El argumento es el fichero a leer
+    ifstream entrada;
+    entrada.open(fichero);
+    if (entrada){
+        string codificacion, idioma, entradas;
+        int dimension;
+        
+        entrada >> codificacion;
+        if (codificacion == "MP-BIGRAMAS_IDIOMA-T-1.0")
+            cout <<"Codificación correcta";
+        else{
+            cerr <<"Fallo en la codificación";
+            return false;
+        }
+        
+        entrada >> idioma;
+        if (entrada)
+            cout <<"Idioma captado: "<<idioma;
+        else{
+            cerr <<"Fallo en la lectura del idioma";
+            return false;
+        }
+        
+        entrada >> dimension;
+        
+        unsigned int contador_lineas = 0;
+        string basura;
+        ifstream entrada_temp;
+        entrada_temp.open(fichero);
+        while (!entrada_temp.eof()){
+            entrada_temp >> basura;
+            contador_lineas++;
+        }
+        if (dimension == contador_lineas + 3){
+
+
+        }
+        else
+            cerr <<"Número de bigramas a leer incorrecto";
+    }
+    else{
+        cerr <<"No existe el archivo";
+        return false;
+    }
+
+    
     //Comprobar que todos los elementos leídos son correctos
     /* entrada >> codificacion. Este realmente no hace fala hacerlo. Pero lo hago porque puedo
     entrada >> idioma
     entrada >> dimension
     entrada >> bigramas 
     
-    Controlar a los cyka blyar
+    Controlar a los cyka blyat
     Mirar que existe el fichero antes de ponerte a hacer nah. Ej: picolini*/
 
 }
