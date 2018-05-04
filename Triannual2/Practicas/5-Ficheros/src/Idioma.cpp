@@ -9,6 +9,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <cstring>
 
 using namespace std;
 
@@ -28,33 +29,25 @@ Idioma::Idioma(int nbg){
 void Idioma::reservarMemoria(int n){
     if (this->_conjunto != nullptr)
         this->liberarMemoria();
-
-    this->_nBigramas = n;
-    this->_conjunto = new Bigrama [this->_nBigramas];
-
+    
+    if (n > 0){
+        this->_nBigramas = n;
+        this->_conjunto  = new Bigrama [this->_nBigramas];
+    }
 }
 
 void Idioma::ampliarMemoria(int n){
     //Copia de la memoria a uno temporal
-    if (n > 0 && this->_conjunto != nullptr){
-        Bigrama * Intercambio = new Bigrama [this->_nBigramas];
-        
-        for (unsigned int i=0; i < this->_nBigramas; i++){
-            Intercambio[i].setFrecuencia(this->_conjunto[i].getFrecuencia());
-            Intercambio[i].setBigrama(this->_conjunto[i].getBigrama());
+    if (n > 0){
+        Bigrama * temporal = new Bigrama [this->_nBigramas + n];
+        for (unsigned int i=0; i<this->_nBigramas; i++){
+            temporal[i].setBigrama(this->_conjunto[i].getBigrama());
+            temporal[i].setFrecuencia(this->_conjunto[i].getFrecuencia());
         }
-
-        //Realocación
         delete [] this->_conjunto;
-        this->_nBigramas = this->_nBigramas + n;
-        this->_conjunto = new Bigrama [this->_nBigramas];
 
-        for (unsigned int i=0; i < this->_nBigramas; i++){
-            this->_conjunto[i].setFrecuencia(Intercambio[i].getFrecuencia());
-            this->_conjunto[i].setBigrama(Intercambio[i].getBigrama());
-        }
-
-        delete [] Intercambio;
+        this->_nBigramas += n; 
+        this->_conjunto   = temporal;
     }
 }
 
@@ -64,14 +57,14 @@ void Idioma::liberarMemoria(){
 }
 
 Bigrama Idioma::getPosicion(int p) const{
-    if (p < this->_nBigramas)
+    if (p>=0 && p < this->_nBigramas)
         return this->_conjunto[p];
     else
         cerr << "Error: índice p erróneo";
 }
 
 void Idioma::setPosicion(int p, const Bigrama & bg){
-    if (p < this->_nBigramas){
+    if (p < this->_nBigramas && p>=0){
         this->_conjunto[p].setFrecuencia(bg.getFrecuencia());
         this->_conjunto[p].setBigrama(bg.getBigrama());
     }
@@ -79,19 +72,19 @@ void Idioma::setPosicion(int p, const Bigrama & bg){
         cerr << "Error: índice p erróneo";
 }
 
-int Idioma::findBigrama(const string bg) const {
-    //TODO bg es string, getBigrama es char *. Convierte bg a la otra basura
-    
+int Idioma::findBigrama(const string bg) const {   
     for (unsigned int i=0; i < this->_nBigramas; i++){
-        if (this->_conjunto[i].getBigrama() == bg)
+        if (strcmp( this->_conjunto[i].getBigrama(), bg.c_str()) == 0){
             return i;
+        }
     }
 
     return -1;
 }
 
 void Idioma::addBigrama(const Bigrama & bg){
-    int posicion = Idioma::findBigrama(bg.getBigrama());
+    int posicion = this->findBigrama(bg.getBigrama());
+    
     if (posicion > -1)
         this->_conjunto[posicion].setFrecuencia(bg.getFrecuencia() + this->_conjunto[posicion].getFrecuencia());
     else{
@@ -104,80 +97,120 @@ void Idioma::addBigrama(const Bigrama & bg){
 bool Idioma::cargarDeFichero(const char * fichero){ //El argumento es el fichero a leer
     ifstream entrada;
     entrada.open(fichero);
+    
     if (entrada){
-        string codificacion, idioma, entradas;
+        string codificacion, idioma;
         int dimension;
         
         entrada >> codificacion;
         if (codificacion == "MP-BIGRAMAS_IDIOMA-T-1.0")
-            cout <<"Codificación correcta";
+            cout <<"Codificación correcta"<<endl;
         else{
-            cerr <<"Fallo en la codificación";
+            cerr <<"Fallo en la codificación"<<endl;
+            entrada.close();
             return false;
         }
         
         entrada >> idioma;
-        if (entrada)
-            cout <<"Idioma captado: "<<idioma;
+        if (this->_idioma == idioma || this->_idioma == "NULL"){
+            cout <<"Idioma captado: "<<idioma<<endl;
+            this->setIdioma(idioma);
+        }
         else{
-            cerr <<"Fallo en la lectura del idioma";
+            cerr <<"Fallo en la lectura del idioma. El idioma actual "<<this->_idioma<<" no es compatible con "<<idioma<<endl;
+            entrada.close();
             return false;
         }
         
         entrada >> dimension;
+        cout <<"Recibida dimensión de tamaño "<<dimension<<endl;
         
-        unsigned int contador_lineas = 0;
-        string basura;
-        ifstream entrada_temp;
-        entrada_temp.open(fichero);
-        while (!entrada_temp.eof()){
-            entrada_temp >> basura;
-            contador_lineas++;
-        }
-        if (dimension == contador_lineas + 3){
+        int contador_lineas = 0;
+        int frecuencia_temp;
+        string bigrama_temp;
+        this->reservarMemoria(dimension);
 
+        for (contador_lineas; contador_lineas < dimension; contador_lineas++){
+            if (!entrada.eof()){
+                entrada >> bigrama_temp;
+                entrada >> frecuencia_temp;
+   
+                this->_conjunto[contador_lineas].setBigrama(bigrama_temp.c_str());
+                this->_conjunto[contador_lineas].setFrecuencia(frecuencia_temp);
 
+            }
+            else{
+                cerr <<"Error: dimensión dada es menor de la cantidad de bigramas que hay"<<endl;
+                entrada.close();
+                return false;
+            }
         }
-        else
-            cerr <<"Número de bigramas a leer incorrecto";
+
+        if (dimension > contador_lineas + 2){
+            cerr <<"Error: la dimensión dada es mayor que el número de bigramas presente"<<endl;
+            entrada.close();
+            return false;
+        }
     }
     else{
-        cerr <<"No existe el archivo";
+        cerr <<"No existe el archivo "<<fichero<<endl;
         return false;
     }
 
-    
-    //Comprobar que todos los elementos leídos son correctos
-    /* entrada >> codificacion. Este realmente no hace fala hacerlo. Pero lo hago porque puedo
-    entrada >> idioma
-    entrada >> dimension
-    entrada >> bigramas 
-    
-    Controlar a los cyka blyat
-    Mirar que existe el fichero antes de ponerte a hacer nah. Ej: picolini*/
-
+    entrada.close();
+    return true;
 }
 
 bool Idioma::addDeFichero(const char * fichero){
-    //Suma las frecuencias de ficheros
+    ifstream entrada;
+    entrada.open(fichero);
+    
+    //No hay diccionario => 
+     if (this->_conjunto == nullptr){
+        if (this->cargarDeFichero(fichero))
+            return true;
+        else
+            return false;    
+    }
+ 
+    //Si hay idioma cargado
+    if (fichero){
+        string codificacion, idioma;
+        int dimension;
+
+        entrada >> codificacion;
+        entrada >> idioma;
+
+        if (this->getIdioma() == idioma){
+            int dimension;
+            entrada >>dimension;
+
+            Bigrama bigrama_temp;
+            string bigrama_leido;
+            int frecuencia_temp;
+
+            for (unsigned int i=0; i<dimension; i++){
+                entrada >>bigrama_leido;
+                entrada >>frecuencia_temp;
+                
+                bigrama_temp.setBigrama(bigrama_leido.c_str());
+                bigrama_temp.setFrecuencia(frecuencia_temp);
+                
+                this->addBigrama(bigrama_temp);
+            }
+        }
+        else{
+            cerr <<"Error: los idiomas leídos son diferentes";
+            entrada.close();
+            return false;
+        }
+
+    }
+    else{
+        cerr <<"No se ha encontrado el archivo";
+        return false;
+    }
+
+    entrada.close();
+    return true;
 }
-
-/*
-    Voy a copiar ahora lo que estamos haciendo en clase. Lo dejo como comentario
-    Se pueden usar rutas relativas y absolutas dentro de la función .open()
-    Se pueden usar strings para especificar los archivos:
-        string archivo = "Cosa";
-        ifstream entrada;
-        entrada.open(archivo);
-    Se puede capturar errores de istream con:
-        if (entrada)
-            cout <<Funciona
-        if (!entrada)
-            cout <<No fufa
-    Puedes detectar si te has quedado sin caracteres que leer dentro de un archivo con repetidos if (entrada)
-
-    Traducciones de tipos: atof
-
-    Comprobar que estemos tratando los mismos idiomas
-*/
-

@@ -133,15 +133,15 @@ tests : testu
 
 testu:
 	@echo "Test 1"
-	dist/Debug/GNU-Linux/idioma re data/1french.bgr data/2french.bgr
+	dist/Debug/GNU-Linux/idioma_nb re data/1french.bgr data/2french.bgr
 	@echo "\nTest 2"
-	dist/Debug/GNU-Linux/idioma re data/1russian.bgr data/2russian.bgr
+	dist/Debug/GNU-Linux/idioma_nb re data/1russian.bgr data/2russian.bgr
 	@echo "\nTest 3"
-	dist/Debug/GNU-Linux/idioma re data/1italian.bgr data/2italian.bgr
+	dist/Debug/GNU-Linux/idioma_nb re data/1italian.bgr data/2italian.bgr
 	@echo "\nTest 4"
-	dist/Debug/GNU-Linux/idioma re data/1spanish.bgr data/2french.bgr
+	dist/Debug/GNU-Linux/idioma_nb re data/1spanish.bgr data/2french.bgr
 testv:
-	valgrind --leak-check=full dist/Debug/GNU-Linux/idioma re data/1french.bgr data/2french.bgr
+	valgrind --leak-check=full dist/Debug/GNU-Linux/idioma_nb re data/1french.bgr data/2french.bgr
 
 # include project implementation makefile
 include nbproject/Makefile-impl.mk

@@ -37,7 +37,7 @@ public:
 
 	 /**
 	  * @brief reserva memoria para @a n bigramas adicionales
-	  * a los que ya haya reservados, manteniendo los datos
+	  * a los que ya ha ya reservados, manteniendo los datos
 	  * que hubiese podido haber reservados
 	  * @param n número de bigramas a ampliar
 	  */
@@ -111,7 +111,7 @@ public:
 	  * desde el fichero (que debe contener un idioma serializado), los bigramas del fichero
 	  * se añaden al diccionario que ya existe.
 	  * @param fichero Contiene los bigramas a añadir al idioma existente
-     * @return @b false si ha habido algún tipo de error, @b true en otro caso
+      * @return @b false si ha habido algún tipo de error, @b true en otro caso
 	  * @pre El objeto ya debe tener un idioma cargado y deben coincidir ambos
 	  */
 	 bool addDeFichero(const char *fichero);

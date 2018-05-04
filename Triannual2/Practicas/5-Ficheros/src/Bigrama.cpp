@@ -30,14 +30,12 @@ void Bigrama::setBigrama(const char cadena[]){
     if (cadena[2] == '\0')
         interruptor = true; 
 
-    //Notas: Cambios en esta función con motivo de optimizar
-    if (interruptor == false)
-        cout <<"Longitud del bigrama inválida para la cadena recibida"<<endl;
-    else{
+    //Nota: originalmente, había un mensaje de error para comprobación de longitud correcta, pero fallaba con las tildes
+    if (interruptor == true){
         this->_bigrama[0] = cadena [0];
         this->_bigrama[1] = cadena [1];
         this->_bigrama[2] = '\0';
-    }
+    };
 };
 
 inline void Bigrama::setFrecuencia(int frec){
