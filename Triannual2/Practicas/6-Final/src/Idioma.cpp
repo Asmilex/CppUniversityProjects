@@ -6,7 +6,7 @@
 #include <cstring>
 
 using namespace std;
-
+//TODO: operadores, distancia, salvar, 
 //Constructores
 Idioma::Idioma(){
     this->_idioma    = "NULL";
@@ -21,6 +21,15 @@ Idioma::Idioma(int nbg){
 
 Idioma::Idioma(const Idioma & orig){
     copiar(orig);    
+}
+
+Idioma::~Idioma(){
+    liberarMemoria();
+}
+
+Idioma& Idioma::operator=(const Idioma & orig){
+    this->copiar(orig);
+    return *this;
 }
 
 Bigrama Idioma::getPosicion(int p) const{
@@ -56,8 +65,21 @@ double Idioma::distancia(const Idioma & otro) const{
 }
 
 void Idioma::ordenar(){
+    Bigrama Intercambio;
 
+    for (int i=0; i<this->_nBigramas; i++)
+        for (int j=0; j<this->_nBigramas; j++)
+            if (strcmp(this->_conjunto[j].getBigrama(),this->_conjunto[i].getBigrama()) < 0){
+                                
+                Intercambio.setFrecuencia(this->_conjunto[i].getFrecuencia());
+                Intercambio.setBigrama(this->_conjunto[i].getBigrama());
 
+                this->_conjunto[i].setFrecuencia(this->_conjunto[j].getFrecuencia());
+                this->_conjunto[i].setBigrama(this->_conjunto[j].getBigrama());
+
+                this->_conjunto[j].setFrecuencia(Intercambio.getFrecuencia());
+                this->_conjunto[j].setBigrama(Intercambio.getBigrama());
+            }
 }
 
 bool Idioma::salvarAFichero(const char * fichero) const{
@@ -133,8 +155,7 @@ bool Idioma::cargarDeFichero(const char * fichero){ //El argumento es el fichero
 }
 
 void Idioma::reservarMemoria(int n){
-    if (this->_conjunto != nullptr)
-        this->liberarMemoria();
+    this->liberarMemoria();
     
     if (n > 0){
         this->_nBigramas = n;
@@ -144,7 +165,8 @@ void Idioma::reservarMemoria(int n){
 
 void Idioma::liberarMemoria(){
     this->_nBigramas = -1;
-    delete [] this->_conjunto;
+    if (this->_conjunto != nullptr)
+        delete [] this->_conjunto;
 }
 
 void Idioma::copiar(const Idioma & otro){
@@ -156,4 +178,14 @@ void Idioma::copiar(const Idioma & otro){
         this->_conjunto[i].setBigrama(otro.getPosicion(i).getBigrama());
         this->_conjunto[i].setFrecuencia(otro.getPosicion(i).getFrecuencia());
     }
+}
+
+ostream& operator<<(ostream & os, const Idioma & i){
+    os<<"Idioma: "<<i.getIdioma()<<endl;
+    imprimeBigramas(i._conjunto, i._nBigramas);
+}
+
+istream & operator>>(istream & is, Idioma & i){
+
+
 }

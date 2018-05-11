@@ -8,6 +8,27 @@
 #include "Idioma.h"
 
 class ContadorBigramas {
+private:
+    int * * _bigramas; 
+    std::string _caracteresValidos; 
+    
+    /**
+	  * @brief Reserva la memoria dinámica necesaria para una matriz2D de @a n x @a n
+	  * @param n Número de filas y columnas de la matriz2D (es una matriz cuadrada)
+	  */
+	 void reservarMemoria(int n);
+	 
+	 /**
+	  * @brief Libera la memoria dinámica reservada para la matriz2D
+	  */
+    void liberarMemoria();
+	 
+	 /**
+	  * @brief Duplica el objeto que se pasa por parámetro en el objeto actual
+	  * @param otro El objeto que se quiere copiar
+	  */
+    void copiar(const ContadorBigramas & otro);
+
 public:
 	 /**
 	  * @brief Constructor base. Es imprescindible pasar la cadena de caracteres válidos para poder dimensionar la matriz 2D
@@ -75,26 +96,6 @@ public:
 	  * @param i El objeto de la clase Idioma que se quiere importar en la clase ContadorBigrama
 	  */
     void fromIdioma(const Idioma &i);
-private:
-    int** _bigramas; 
-    std::string _caracteresValidos; 
-    
-    /**
-	  * @brief Reserva la memoria dinámica necesaria para una matriz2D de @a n x @a n
-	  * @param n Número de filas y columnas de la matriz2D (es una matriz cuadrada)
-	  */
-	 void reservarMemoria(int n);
-	 
-	 /**
-	  * @brief Libera la memoria dinámica reservada para la matriz2D
-	  */
-    void liberarMemoria();
-	 
-	 /**
-	  * @brief Duplica el objeto que se pasa por parámetro en el objeto actual
-	  * @param otro El objeto que se quiere copiar
-	  */
-    void copiar(const ContadorBigramas & otro);
 };
 
 #endif

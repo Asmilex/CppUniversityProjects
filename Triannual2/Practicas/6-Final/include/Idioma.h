@@ -1,4 +1,3 @@
-
 /** 
  * @file Idioma.h
  * @author DECSAI

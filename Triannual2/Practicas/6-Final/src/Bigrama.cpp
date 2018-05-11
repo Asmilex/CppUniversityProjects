@@ -53,7 +53,7 @@ void ordenaAscBigr(Bigrama * v, int n){
     Bigrama Intercambio;
     for (int i=0; i<n; i++)
         for (int j=0; j<n; j++)
-            if (strcmp(v[j].getBigrama(),v[i].getBigrama()) > 0){
+            if (strcmp(v[j].getBigrama(),v[i].getBigrama()) < 0){
                                 
                 Intercambio.setFrecuencia(v[i].getFrecuencia());
                 Intercambio.setBigrama(v[i].getBigrama());
