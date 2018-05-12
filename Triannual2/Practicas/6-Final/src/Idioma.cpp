@@ -6,16 +6,16 @@
 #include <cstring>
 
 using namespace std;
-//TODO: operadores, distancia, salvar, 
+//TODO: operadores, distancia 
 //Constructores
 Idioma::Idioma(){
-    this->_idioma    = "NULL";
+    this->_idioma    = "unknown";
     this->_conjunto  = nullptr;
     this->_nBigramas = -1;
 }
 
 Idioma::Idioma(int nbg){
-    this->_idioma    = "NULL";
+    this->_idioma    = "unknown";
     reservarMemoria(nbg);
 }
 
@@ -36,7 +36,7 @@ Bigrama Idioma::getPosicion(int p) const{
     if (p>=0 && p < this->_nBigramas)
         return this->_conjunto[p];
     else
-        cerr << "Error: índice p erróneo";
+        cerr << "Error: índice erróneo; segmentation fault";
 }
 
 void Idioma::setPosicion(int p, const Bigrama & bg){
@@ -83,8 +83,24 @@ void Idioma::ordenar(){
 }
 
 bool Idioma::salvarAFichero(const char * fichero) const{
+    ofstream salida;
+    salida.open(fichero);
 
-    
+    if (salida){
+        salida << "MP-BIGRAMAS_IDIOMA-T-1.0";
+        salida << this->_idioma;
+        salida << this->_nBigramas;
+
+        for (int i=0; i < this->_nBigramas; i++)
+            salida << this->_conjunto[i].getBigrama() <<" "<<this->_conjunto[i].getFrecuencia();
+
+        cout <<"Datos guardados correctamente. Comprueba "<<fichero;
+        return true;
+    }
+    else{
+        cerr << "Error: no se ha podido crear el fichero";
+        return false;
+    }    
 }
 
 bool Idioma::cargarDeFichero(const char * fichero){ //El argumento es el fichero a leer
@@ -105,7 +121,7 @@ bool Idioma::cargarDeFichero(const char * fichero){ //El argumento es el fichero
         }
         
         entrada >> idioma;
-        if (this->_idioma == idioma || this->_idioma == "NULL"){
+        if (this->_idioma == idioma || this->_idioma == "unknown"){
             cout <<"Idioma captado: "<<idioma<<endl;
             this->setIdioma(idioma);
         }
