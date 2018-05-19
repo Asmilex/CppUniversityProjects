@@ -5,9 +5,8 @@
 #include <fstream>
 #include <cstring>
 
-using namespace std;
-//TODO: operadores, distancia 
-//Constructores
+using namespace std; 
+
 Idioma::Idioma(){
     this->_idioma    = "unknown";
     this->_conjunto  = nullptr;
@@ -20,7 +19,7 @@ Idioma::Idioma(int nbg){
 }
 
 Idioma::Idioma(const Idioma & orig){
-    copiar(orig);    
+    copiar(orig);
 }
 
 Idioma::~Idioma(){
@@ -35,8 +34,11 @@ Idioma& Idioma::operator=(const Idioma & orig){
 Bigrama Idioma::getPosicion(int p) const{
     if (p>=0 && p < this->_nBigramas)
         return this->_conjunto[p];
-    else
+    else{
+        //Nota: para evitar errores de no devolución, envío simplemente la primera
         cerr << "Error: índice erróneo; segmentation fault";
+        return this->_conjunto[0];
+    }
 }
 
 void Idioma::setPosicion(int p, const Bigrama & bg){
@@ -45,7 +47,7 @@ void Idioma::setPosicion(int p, const Bigrama & bg){
         this->_conjunto[p].setBigrama(bg.getBigrama());
     }
     else
-        cerr << "Error: índice p erróneo";
+        cerr << "Error: índice erróneo";
 }
 
 int Idioma::findBigrama(const string & bg) const{   
@@ -56,12 +58,6 @@ int Idioma::findBigrama(const string & bg) const{
     }
 
     return -1;
-}
-
-double Idioma::distancia(const Idioma & otro) const{
-    
-
-
 }
 
 void Idioma::ordenar(){
@@ -197,11 +193,47 @@ void Idioma::copiar(const Idioma & otro){
 }
 
 ostream& operator<<(ostream & os, const Idioma & i){
-    os<<"Idioma: "<<i.getIdioma()<<endl;
-    imprimeBigramas(i._conjunto, i._nBigramas);
+    os <<"Idioma: "<<i.getIdioma()<<endl;
+    
+    os <<"Lista de " << i.getSize() << " bigramas:" <<endl;
+    for (int j=0; j < i.getSize(); j++)
+        os << i.getPosicion(j).getBigrama() << "-" << i.getPosicion(j).getFrecuencia()<< ", "; // << endl;
+
+    return os;
 }
 
 istream & operator>>(istream & is, Idioma & i){
+    int dimension;
+    string codificacion, idioma;
+    
+    is >> codificacion;    
+    is >> idioma;
 
+    if (i._idioma != idioma)
+        cerr <<"Se reescribirá el idioma, ya que el introducido difiere con el presente";
+    
+    i.setIdioma(idioma);    
+        
+    is >> dimension;
 
+    int contador_lineas = 0;
+    int frecuencia_temp;
+    string bigrama_temp;
+
+    i.reservarMemoria(dimension);
+
+    for (contador_lineas; contador_lineas < dimension; contador_lineas++){
+        is >> bigrama_temp;
+        is >> frecuencia_temp;
+
+        i._conjunto[contador_lineas].setBigrama(bigrama_temp.c_str());
+        i._conjunto[contador_lineas].setFrecuencia(frecuencia_temp);
+
+    }
+    
+    if (contador_lineas != dimension){
+        cerr << "Número de bigramas proporcionados distinta de la obtenida. Se esperan errores";
+    }
+    
+    return is;
 }

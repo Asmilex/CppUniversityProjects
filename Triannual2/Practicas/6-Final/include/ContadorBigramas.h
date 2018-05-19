@@ -96,18 +96,6 @@ public:
 	  * @param i El objeto de la clase Idioma que se quiere importar en la clase ContadorBigrama
 	  */
     void fromIdioma(const Idioma &i);
-	
-	/**
-	 * @brief: devuelve los caracteres en uso
-	 * @return string de los caracteres usados para la matriz
-	 */
-	std::string getCaracteresValidos() const;
-
-	/**
-	 * 
-	 * 
-	 */
-	int getPosicion(int fila, int columna) const;
 };
 
 #endif

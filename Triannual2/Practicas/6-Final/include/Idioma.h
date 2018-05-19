@@ -93,7 +93,7 @@ public:
      * @param otro El segundo idioma para consultar la distancia
      * @return 
      */
-    double distancia(const Idioma & otro) const;
+    //double distancia(const Idioma & otro) const;
     
     /**
      * @brief Ordena la lista de bigramas de mayor a menor frecuencia

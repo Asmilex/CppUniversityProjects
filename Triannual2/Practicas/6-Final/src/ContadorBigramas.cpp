@@ -1,4 +1,6 @@
 #include <iostream>
+#include <cstring>
+#include <fstream>
 #include "ContadorBigramas.h"
 #include "Idioma.h"
 #include "Bigrama.h"
@@ -7,7 +9,6 @@ using namespace std;
 
 ContadorBigramas::ContadorBigramas(const string & caracteresValidos){
     this->_caracteresValidos = caracteresValidos;
-
     reservarMemoria(caracteresValidos.size());
 }
 
@@ -21,27 +22,38 @@ ContadorBigramas::~ContadorBigramas(){
 
 int ContadorBigramas::getSize() const{return this->_caracteresValidos.size();} 
 
-string ContadorBigramas::getCaracteresValidos() const{return this->_caracteresValidos;};
-
 int ContadorBigramas::getBigramasActivos() const{
+    int dim = this->_caracteresValidos.size();
+    int activos = 0;
 
-
-}
-
-int ContadorBigramas::getPosicion(int fila, int columna) const{
-    int dim = this->_caracteresValidos.size(); 
+    for (unsigned int i=0; i<dim; i++)
+        for (unsigned int j=0; j<dim; j++)
+            if (this->_bigramas[i][j] > 0)
+                activos++;
     
-    if (fila < dim && columna < dim)
-        return this->_bigramas[fila][columna];
-    else{
-        return -1;
-        cerr <<"Índice inválido";
-    }
+    return activos;
 }
 
-bool addBigrama(const char cadena[], int frecuencia=0){
+bool ContadorBigramas::addBigrama(const char cadena[], int frecuencia){
+    if (strlen(cadena)<=2){
+        cerr <<"Longitud de cadena inválida. Is this an attack?";
+        return false;
+    }
 
+    int fila    = this->_caracteresValidos.find(cadena[0]);
+    int columna = this->_caracteresValidos.find(cadena[1]);
 
+    if (fila == -1 || columna == -1){
+        cerr <<"No se puede añadir el bigrama \""<<cadena[0]<<cadena[1]<<"\". No se encuentra disponible";
+        return 0;
+    }
+
+    if (frecuencia == 0)
+        this->_bigramas[fila][columna]++;
+    if (frecuencia > 0)
+        this->_bigramas[fila][columna]+= frecuencia;
+
+    return true;
 }
 
 ContadorBigramas& ContadorBigramas::operator=(const ContadorBigramas & orig){
@@ -50,7 +62,7 @@ ContadorBigramas& ContadorBigramas::operator=(const ContadorBigramas & orig){
 }
 
 ContadorBigramas& ContadorBigramas::operator+=(const ContadorBigramas & rhs){
-    if (this->_caracteresValidos != rhs.getCaracteresValidos())
+    if (this->_caracteresValidos != rhs._caracteresValidos)
         cerr <<"Caracteres válidos distintos: seguramente haya errores";
 
     if (this->_bigramas != nullptr){
@@ -58,36 +70,88 @@ ContadorBigramas& ContadorBigramas::operator+=(const ContadorBigramas & rhs){
 
         for (unsigned int i=0; i<dim; i++)
             for (unsigned int j=0; j<dim; j++)
-                this->_bigramas[i][j] += rhs.getPosicion(i,j);
+                this->_bigramas[i][j] += rhs._bigramas[i][j];
     }
     else
         copiar(rhs);
     
-
     return *this;
 }
 
 bool ContadorBigramas::calcularFrecuenciasBigramas(const char * nfichero){
+    int dim = strlen(nfichero);
 
+    ifstream entrada;
+    entrada.open(nfichero);
 
+    if (!entrada){
+        cerr <<"Error en la apertura del fichero";
+        return false;
+    }
+
+    string palabra, bigrama;
+    while (!entrada.eof()){
+
+        entrada >>palabra;
+
+        if (palabra.size() > 1){
+            for (unsigned int i=0; i<palabra.size()-1; i++){
+                bigrama[0] = palabra[i];
+                bigrama[1] = palabra[i+1];
+
+                this->addBigrama(bigrama.c_str());
+            }
+        }
+    }
+    return true;
 }
 
 Idioma ContadorBigramas::toIdioma() const {
+    Idioma nuevo_idioma(this->getBigramasActivos());
+    
+    int posicion = 0;
+    int dim      = this->_caracteresValidos.size();
+    
+    char cadena[3];
+    cadena[2] = '\0';
+    
+    Bigrama bigrama;
 
+    for (unsigned int i=0; i<dim; i++)
+        for (unsigned int j=0; j<dim; j++)
+            if (this->_bigramas[i][j] > 0){
+                cadena[0] = this->_caracteresValidos[i];
+                cadena[1] = this->_caracteresValidos[j];
 
+                bigrama.setBigrama(cadena);
+                bigrama.setFrecuencia(this->_bigramas[i][j]);
+                
+                nuevo_idioma.setPosicion(posicion,bigrama);
+                posicion++;
+            }
 
+    return nuevo_idioma;
 }
-
+    
 void ContadorBigramas::fromIdioma(const Idioma & i){
-
-
+    for (unsigned int j=0; j<i.getSize(); j++){
+        this->addBigrama(i.getPosicion(j).getBigrama(),i.getPosicion(j).getFrecuencia());
+    }
 }
 
 void ContadorBigramas::reservarMemoria(int n){
-    this->_bigramas = new int * [n];
-    for (int i=0; i<n; i++)
-        this->_bigramas[i] = new int [n];
+    if (n>0){
+        this->_bigramas = new int * [n];
+        
+        for (int i=0; i<n; i++)
+            this->_bigramas[i] = new int [n];
 
+        for (unsigned int i=0; i<n; i++)
+            for (unsigned int j=0; j<n; j++)
+                this->_bigramas[i][j] = 0;
+    }
+    else
+        cerr <<"Reservar memoria | tamaño pasado menor que 0";
 }
 
 void ContadorBigramas::liberarMemoria(){
@@ -101,7 +165,7 @@ void ContadorBigramas::liberarMemoria(){
 }
 
 void ContadorBigramas::copiar(const ContadorBigramas & otro){
-    this->_caracteresValidos = otro.getCaracteresValidos();
+    this->_caracteresValidos = otro._caracteresValidos;
 
     if (this->_bigramas != nullptr)
         liberarMemoria();
@@ -111,6 +175,6 @@ void ContadorBigramas::copiar(const ContadorBigramas & otro){
 
     for (unsigned int i=0; i<dim; i++)
         for (unsigned int j=0; j<dim; j++)
-            this->_bigramas[i][j] = otro.getPosicion(i,j);
+            this->_bigramas[i][j] = otro._bigramas[i][j];
 }
 
