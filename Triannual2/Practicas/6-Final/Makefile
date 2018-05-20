@@ -125,6 +125,8 @@ zip: clobber
 	rm -rf doc/html doc/latex
 	zip -r zip/practica6.zip * -x nbproject/private/*
 
+execute:
+	valgrind --leak-check=full dist/Debug/GNU-Linux/learn
 
 # include project implementation makefile
 include nbproject/Makefile-impl.mk

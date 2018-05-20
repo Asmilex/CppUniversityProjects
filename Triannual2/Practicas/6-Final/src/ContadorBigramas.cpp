@@ -8,8 +8,8 @@
 using namespace std;
 
 ContadorBigramas::ContadorBigramas(const string & caracteresValidos){
-    this->_caracteresValidos = caracteresValidos;
-    reservarMemoria(caracteresValidos.size());
+    this->_caracteresValidos = caracteresValidos;  
+    reservarMemoria(this->_caracteresValidos.size());
 }
 
 ContadorBigramas::ContadorBigramas(const ContadorBigramas & orig){
@@ -35,8 +35,8 @@ int ContadorBigramas::getBigramasActivos() const{
 }
 
 bool ContadorBigramas::addBigrama(const char cadena[], int frecuencia){
-    if (strlen(cadena)<=2){
-        cerr <<"Longitud de cadena inválida. Is this an attack?";
+    if (strlen(cadena)<=1){
+        cerr <<"Longitud de cadena inválida. Is this an attack?\n";
         return false;
     }
 
@@ -44,8 +44,8 @@ bool ContadorBigramas::addBigrama(const char cadena[], int frecuencia){
     int columna = this->_caracteresValidos.find(cadena[1]);
 
     if (fila == -1 || columna == -1){
-        cerr <<"No se puede añadir el bigrama \""<<cadena[0]<<cadena[1]<<"\". No se encuentra disponible";
-        return 0;
+        //cerr <<"No se puede añadir el bigrama \""<<cadena[0]<<cadena[1]<<"\". No se encuentra disponible";
+        return false;
     }
 
     if (frecuencia == 0)
@@ -79,8 +79,6 @@ ContadorBigramas& ContadorBigramas::operator+=(const ContadorBigramas & rhs){
 }
 
 bool ContadorBigramas::calcularFrecuenciasBigramas(const char * nfichero){
-    int dim = strlen(nfichero);
-
     ifstream entrada;
     entrada.open(nfichero);
 
@@ -89,26 +87,28 @@ bool ContadorBigramas::calcularFrecuenciasBigramas(const char * nfichero){
         return false;
     }
 
-    string palabra, bigrama;
-    while (!entrada.eof()){
+    string palabra;
+    char bigrama[3];
+    bigrama[2] = '\0';
 
+    while (!entrada.eof()){
         entrada >>palabra;
 
-        if (palabra.size() > 1){
+        if (palabra.size() > 1)
             for (unsigned int i=0; i<palabra.size()-1; i++){
-                bigrama[0] = palabra[i];
-                bigrama[1] = palabra[i+1];
+                bigrama[0] = tolower(palabra[i]);
+                bigrama[1] = tolower(palabra[i+1]);
 
-                this->addBigrama(bigrama.c_str());
+                this->addBigrama(bigrama);
             }
-        }
     }
+    
     return true;
 }
 
 Idioma ContadorBigramas::toIdioma() const {
-    Idioma nuevo_idioma(this->getBigramasActivos());
-    
+    Idioma new_idioma(this->getBigramasActivos());
+
     int posicion = 0;
     int dim      = this->_caracteresValidos.size();
     
@@ -126,11 +126,11 @@ Idioma ContadorBigramas::toIdioma() const {
                 bigrama.setBigrama(cadena);
                 bigrama.setFrecuencia(this->_bigramas[i][j]);
                 
-                nuevo_idioma.setPosicion(posicion,bigrama);
+                new_idioma.setPosicion(posicion,bigrama);
                 posicion++;
             }
 
-    return nuevo_idioma;
+    return new_idioma;
 }
     
 void ContadorBigramas::fromIdioma(const Idioma & i){

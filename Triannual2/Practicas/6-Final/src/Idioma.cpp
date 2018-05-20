@@ -65,7 +65,7 @@ void Idioma::ordenar(){
 
     for (int i=0; i<this->_nBigramas; i++)
         for (int j=0; j<this->_nBigramas; j++)
-            if (strcmp(this->_conjunto[j].getBigrama(),this->_conjunto[i].getBigrama()) < 0){
+            if (this->_conjunto[j].getFrecuencia() < this->_conjunto[i].getFrecuencia()){
                                 
                 Intercambio.setFrecuencia(this->_conjunto[i].getFrecuencia());
                 Intercambio.setBigrama(this->_conjunto[i].getBigrama());
@@ -83,14 +83,13 @@ bool Idioma::salvarAFichero(const char * fichero) const{
     salida.open(fichero);
 
     if (salida){
-        salida << "MP-BIGRAMAS_IDIOMA-T-1.0";
-        salida << this->_idioma;
-        salida << this->_nBigramas;
+        salida << "MP-BIGRAMAS_IDIOMA-T-1.0"<<endl;
+        salida << this->_idioma<<endl;
+        salida << this->_nBigramas<<endl;
 
         for (int i=0; i < this->_nBigramas; i++)
-            salida << this->_conjunto[i].getBigrama() <<" "<<this->_conjunto[i].getFrecuencia();
+            salida << this->_conjunto[i].getBigrama() <<" "<<this->_conjunto[i].getFrecuencia()<<endl;
 
-        cout <<"Datos guardados correctamente. Comprueba "<<fichero;
         return true;
     }
     else{
@@ -167,8 +166,7 @@ bool Idioma::cargarDeFichero(const char * fichero){ //El argumento es el fichero
 }
 
 void Idioma::reservarMemoria(int n){
-    this->liberarMemoria();
-    
+        
     if (n > 0){
         this->_nBigramas = n;
         this->_conjunto  = new Bigrama [this->_nBigramas];
