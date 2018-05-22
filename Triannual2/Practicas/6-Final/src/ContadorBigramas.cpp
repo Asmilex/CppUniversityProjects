@@ -35,7 +35,7 @@ int ContadorBigramas::getBigramasActivos() const{
 }
 
 bool ContadorBigramas::addBigrama(const char cadena[], int frecuencia){
-    if (strlen(cadena)<=1){
+    if (strlen(cadena) <= 1){
         cerr <<"Longitud de cadena inválida. Is this an attack?\n";
         return false;
     }
@@ -52,7 +52,7 @@ bool ContadorBigramas::addBigrama(const char cadena[], int frecuencia){
         this->_bigramas[fila][columna]++;
     if (frecuencia > 0)
         this->_bigramas[fila][columna]+= frecuencia;
-
+        
     return true;
 }
 
