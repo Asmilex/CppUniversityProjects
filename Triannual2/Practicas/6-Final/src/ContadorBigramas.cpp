@@ -91,9 +91,7 @@ bool ContadorBigramas::calcularFrecuenciasBigramas(const char * nfichero){
     char bigrama[3];
     bigrama[2] = '\0';
 
-    while (!entrada.eof()){
-        entrada >>palabra;
-
+    while (entrada >>palabra){
         if (palabra.size() > 1)
             for (unsigned int i=0; i<palabra.size()-1; i++){
                 bigrama[0] = tolower(palabra[i]);
@@ -139,16 +137,17 @@ void ContadorBigramas::fromIdioma(const Idioma & i){
     }
 }
 
-void ContadorBigramas::reservarMemoria(int n){
+void ContadorBigramas::reservarMemoria(int n){   
     if (n>0){
         this->_bigramas = new int * [n];
         
-        for (int i=0; i<n; i++)
+        for (int i=0; i<n; i++){
             this->_bigramas[i] = new int [n];
 
-        for (unsigned int i=0; i<n; i++)
             for (unsigned int j=0; j<n; j++)
                 this->_bigramas[i][j] = 0;
+    
+        }
     }
     else
         cerr <<"Reservar memoria | tamaño pasado menor que 0";
@@ -162,6 +161,7 @@ void ContadorBigramas::liberarMemoria(){
         delete [] this->_bigramas[i];
     
     delete [] this->_bigramas;
+    this->_bigramas = nullptr;
 }
 
 void ContadorBigramas::copiar(const ContadorBigramas & otro){

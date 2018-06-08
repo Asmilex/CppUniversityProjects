@@ -85,10 +85,10 @@ bool Idioma::salvarAFichero(const char * fichero) const{
     if (salida){
         salida << "MP-BIGRAMAS_IDIOMA-T-1.0"<<endl;
         salida << this->_idioma<<endl;
-        salida << this->_nBigramas<<endl;
+        salida << this->_nBigramas;
 
         for (int i=0; i < this->_nBigramas; i++)
-            salida << this->_conjunto[i].getBigrama() <<" "<<this->_conjunto[i].getFrecuencia()<<endl;
+            salida <<endl<<this->_conjunto[i].getBigrama() <<" "<<this->_conjunto[i].getFrecuencia();
 
         return true;
     }
@@ -102,7 +102,7 @@ bool Idioma::cargarDeFichero(const char * fichero){ //El argumento es el fichero
     ifstream entrada;
     entrada.open(fichero);
     
-    if (entrada){
+    if (entrada){   
         string codificacion, idioma;
         int dimension;
         
@@ -132,6 +132,7 @@ bool Idioma::cargarDeFichero(const char * fichero){ //El argumento es el fichero
         int contador_lineas = 0;
         int frecuencia_temp;
         string bigrama_temp;
+
         this->reservarMemoria(dimension);
 
         for (contador_lineas; contador_lineas < dimension; contador_lineas++){
@@ -166,7 +167,6 @@ bool Idioma::cargarDeFichero(const char * fichero){ //El argumento es el fichero
 }
 
 void Idioma::reservarMemoria(int n){
-        
     if (n > 0){
         this->_nBigramas = n;
         this->_conjunto  = new Bigrama [this->_nBigramas];
@@ -175,11 +175,14 @@ void Idioma::reservarMemoria(int n){
 
 void Idioma::liberarMemoria(){
     this->_nBigramas = -1;
+
     if (this->_conjunto != nullptr)
         delete [] this->_conjunto;
+
+    this->_conjunto = nullptr;
 }
 
-void Idioma::copiar(const Idioma & otro){
+void Idioma::copiar(const Idioma & otro){    
     this->_idioma = otro.getIdioma();
 
     reservarMemoria(otro.getSize());

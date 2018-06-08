@@ -100,7 +100,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    cout <<"Todo listo. Puedes comprobar el archivo de salida con `more "<<fichero_salida;
+    cout <<"Todo listo. Puedes comprobar el archivo de salida con `more "<<fichero_salida<<"`"<<endl;
 
    return 0;
 }   
