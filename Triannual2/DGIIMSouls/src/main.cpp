@@ -1,5 +1,7 @@
 #include <iostream>
 #include <random> //Random Number Generator
+#include "Personaje.h"
+
 using namespace std;
 
 float RNG(double min, double max){
