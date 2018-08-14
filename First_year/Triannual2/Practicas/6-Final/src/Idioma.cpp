@@ -31,13 +31,12 @@ Idioma& Idioma::operator=(const Idioma & orig){
     return *this;
 }
 
-Bigrama Idioma::getPosicion(int p) const{
+Bigrama Idioma::getPosicion(int p) const {
     if (p>=0 && p < this->_nBigramas)
         return this->_conjunto[p];
     else{
         //Nota: para evitar errores de no devolución, envío simplemente la primera
-        cerr << "Error: índice erróneo; segmentation fault";
-        return this->_conjunto[0];
+        throw out_of_range("El índice usado es inválido");
     }
 }
 

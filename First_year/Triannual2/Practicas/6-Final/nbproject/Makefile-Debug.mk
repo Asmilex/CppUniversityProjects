@@ -46,7 +46,7 @@ CFLAGS=
 
 # CC Compiler Flags
 CCFLAGS=
-CXXFLAGS=
+CXXFLAGS=-std=c++11
 
 # Fortran Compiler Flags
 FFLAGS=

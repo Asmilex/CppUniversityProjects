@@ -34,9 +34,9 @@ public:
     double GetBDamage() const;                                   //Devuelve el daño base
     int GetLevel() const;                                        //Por mucho nivel que tengas no va a hacer que mejores
 
-    friend std::ostream & operator<<(std::ostream os, Personaje naufrago); //Muestra en pantalla tu personaje
-}
+    friend std::ostream & operator<<(std::ostream & os, const Personaje naufrago); //Muestra en pantalla tu personaje
+};
 
-std::ostream& operator<<(std::ostream os, Personaje naufrago);
+std::ostream& operator<<(std::ostream & os, const Personaje naufrago);
 
 #endif

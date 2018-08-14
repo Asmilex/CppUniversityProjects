@@ -5,8 +5,8 @@
 using namespace std;
 
 float RNG(double min, double max){
-    random_device rd;     // only used once to initialise (seed) engine
-    mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
+    random_device rd;     							// only used once to initialise (seed) engine
+    mt19937 rng(rd());    							// random-number engine used (Mersenne-Twister in this case)
     uniform_real_distribution<double> uni(min,max); // guaranteed unbiased
 
     auto random_double = uni(rng);
