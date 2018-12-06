@@ -3,10 +3,10 @@ OBJ = obj
 SRC = src
 BIN = bin
 CXX = g++
-CPPFLAGS = #-Wall -g
+CPPFLAGS = -Wall -g
+Executable = Fecha_Historica
 
-
-all: $(BIN)/prueba
+all: $(BIN)/$(Executable)
 
 # ************ Generación de documentación ******************
 documentacion:
@@ -15,8 +15,8 @@ documentacion:
 	
 # ************ Compilación de módulos ************
 
-$(BIN)/prueba : $(OBJ)/pruebacronologia.o $(OBJ)/Fecha_Historica.o $(OBJ)/Cronologia.o 
-	$(CXX) -o $(BIN)/prueba $(OBJ)/pruebacronologia.o $(OBJ)/Fecha_Historica.o $(OBJ)/Cronologia.o
+$(BIN)/$(Executable) : $(OBJ)/pruebacronologia.o $(OBJ)/Fecha_Historica.o $(OBJ)/Cronologia.o 
+	$(CXX) -o $(BIN)/$(Executable) $(OBJ)/pruebacronologia.o $(OBJ)/Fecha_Historica.o $(OBJ)/Cronologia.o
 
 $(OBJ)/pruebacronologia.o : $(INC)/Cronologia.h $(INC)/Fecha_Historica.h $(SRC)/pruebacronologia.cpp
 	$(CXX) $(CPPFLAGS) -I./$(INC) -c -o $(OBJ)/pruebacronologia.o $(SRC)/pruebacronologia.cpp

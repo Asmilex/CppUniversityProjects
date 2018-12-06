@@ -28,7 +28,7 @@ using namespace std;
   * .
   * .
   * .
-  * Año_N a.C/d.C N_eventos evento/s:
+  * Año_N a.C/d.C M_eventos evento/s:
   * *)Fecha_Historica_1
   * ...
   * *)Fecha_Historica_M 
@@ -70,9 +70,9 @@ class Cronologia {
   *
   */
 
-  int neventos;               /**< número objetos Fecha_Historica almacenados */
+  int num_eventos;               /**< número objetos Fecha_Historica almacenados */
   int reservados;             /**< número de elementos reservados, */
-  Fecha_Historica *event;    /**< vector de Eventos Historicos */
+  Fecha_Historica * eventos;    /**< vector de Eventos Historicos */
 
   void resize(int r);         /**< Funcion privada para mantener el vector dinámico de string */
   void ordenar();             /**< Función privada para ordener los eventos según la fecha */
@@ -110,9 +110,9 @@ class Cronologia {
   */
 
   ~Cronologia(){
-     neventos=0;
-     reservados=0;
-     delete[] event;
+    num_eventos=0;
+	reservados=0;
+	delete[] eventos;
   }
 
 /**
@@ -160,7 +160,7 @@ class Cronologia {
   * @param is stream de entrada
   * @param c Cronologia que recibe el valor
   * @retval La Cronologia leída en c
-  * @pre La entrada tiene el formato de Fecha_Historica neventos numero de veces
+  * @pre La entrada tiene el formato de Fecha_Historica num_eventos numero de veces
   */
 
   friend istream& operator>> (istream& is, Cronologia& c);
