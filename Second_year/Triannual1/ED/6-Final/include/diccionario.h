@@ -83,7 +83,7 @@ public:
 // ─── ITERADORES ─────────────────────────────────────────────────────────────────
 //
 
-	typedef typename set< string >::iterator iter;
+	typedef typename set< string >::iterator 	   iter;
 	typedef typename set< string >::const_iterator const_iter;
 
 	iter begin ()				{  return datos.begin();  };
