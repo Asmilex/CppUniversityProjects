@@ -25,5 +25,13 @@ int main ( int argc, char const *argv[] ) {
     letras.load_diccionario( diccionario );
 
     cout << letras;
+
+    cout << "\n\nBúsqueda palabras de longitud " << argv[3] << endl;
+
+    auto palabras = letras.search_longest_words( atoi( argv[3] ) );
+
+    for ( auto word: palabras )
+        cout << word << " "; 
+
     return 0;
 }

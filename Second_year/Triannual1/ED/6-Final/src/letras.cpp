@@ -104,7 +104,7 @@ using namespace std;
                         this->puntuaciones [ index ] = valor;
                         is_frec = true;
                     }
-                    
+
                     temp = "";
                 }
             }       
@@ -189,16 +189,21 @@ using namespace std;
         { 
                 return find(   this->lista_letras.begin()
                             ,  this->lista_letras.end() 
-                            ,  letra ) != lista_letras.end(); 
+                            ,  toupper(letra) ) != lista_letras.end(); 
         };
 
-        for ( auto palabra: diccionario ) {
-            if ( palabra.size() != longitud )
-                continue;
-            
-            
-            if ( all_of( palabra.begin(), palabra.end(), letter_belongs_list ) )
-                resultados.push_back( palabra );
+        for ( auto max_length = longitud; max_length >= 2; --max_length ) {
+            for ( auto palabra: diccionario ) {
+                if ( palabra.size() != max_length )
+                    continue;
+                
+                
+                if ( all_of( palabra.begin(), palabra.end(), letter_belongs_list ) )
+                    resultados.push_back( palabra );
+            }
+
+            if ( !resultados.empty() )
+                return resultados;
         }
 
         return resultados;
@@ -212,7 +217,7 @@ using namespace std;
         { 
                 return find(   this->lista_letras.begin()
                             ,  this->lista_letras.end() 
-                            ,  letra ) != lista_letras.end(); 
+                            ,  toupper(letra) ) != lista_letras.end(); 
         };
 
         // REVIEW solución poco eficiente. 
