@@ -39,6 +39,11 @@ public:
 // ─── CONSTRUCTORES ──────────────────────────────────────────────────────────────
 //
 
+    //FIXME seguramente acabe cambiando los constructores
+    // Se me ocurre: por defecto (todo a 0 ) + rng
+    //               con archivo + rng
+    //               explícito
+    
     /**
      * @brief constructor por defecto + parametrizado
      * @param archivo: donde cargar las puntuaciones y las frecuencias
@@ -53,6 +58,7 @@ public:
     Letras (    unsigned int score[26]
             ,   unsigned int frec[26]
             ,   unsigned int num_letras = default_random_letters );
+    
     /**
      * @brief constructor de copia
      */
