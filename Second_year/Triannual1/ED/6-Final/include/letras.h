@@ -5,6 +5,8 @@
 #include <list>
 #include <string>
 #include <random>
+#include <fstream>
+#include <algorithm>
 #include "diccionario.h"
 using namespace std;
 
@@ -27,10 +29,8 @@ private:
 // ─── METODOS PRIVADOS ───────────────────────────────────────────────────────────
 //
 
-    void load_file ( string archivo );
+    bool load_file ( string archivo );
     void generate_random_letters ( int numero );
-
-
 
 
 public:
@@ -39,26 +39,24 @@ public:
 // ─── CONSTRUCTORES ──────────────────────────────────────────────────────────────
 //
 
-    //FIXME seguramente acabe cambiando los constructores
-    // Se me ocurre: por defecto (todo a 0 ) + rng
-    //               con archivo + rng
-    //               explícito
+    /**
+     * @brief constructor por defecto sobrecargado
+     * @param score: puntuaciones de las letras
+     * @param frec: frecuencia de las letras
+     * @num_letras: número de letras a generar
+     */
+    Letras (    unsigned int score[26]  = {0}
+            ,   unsigned int frec[26]   = {0}
+            ,   unsigned int num_letras = default_random_letters );
     
     /**
-     * @brief constructor por defecto + parametrizado
-     * @param archivo: donde cargar las puntuaciones y las frecuencias
-     * @param num_letras: letras aleatorias que generar
+     * @brief: constructor por parámetros. Carga un archivo
+     * @param archivo: archivo a cargar
+     * @param num_letras: número de letras a generar
      */
-    Letras (    string archivo = "../files/letras.txt"
+    Letras (    string       archivo
             ,   unsigned int num_letras = default_random_letters );
 
-    /**
-     * @brief: constructor 
-     */
-    Letras (    unsigned int score[26]
-            ,   unsigned int frec[26]
-            ,   unsigned int num_letras = default_random_letters );
-    
     /**
      * @brief constructor de copia
      */
@@ -83,13 +81,28 @@ public:
      */
     list < char > get_list_letters () const;
 
-    unsigned int get_frecuencia ( const char letra );
-    unsigned int get_puntuacion ( const char letra );
-
+    void         get_frecuencias ( int arr[26] )      const;
+    void         get_puntuaciones( int arr[26] )      const; 
+    unsigned int get_frecuencia  ( const char letra ) const;
+    unsigned int get_frecuencia  ( const int index  ) const;
+    unsigned int get_puntuacion  ( const int index  ) const;
+    unsigned int get_puntuacion  ( const char letra ) const;
 
 
     void load_diccionario ( const Diccionario& dic );
 
+    Diccionario get_diccionario () const;
+
+//
+// ─── CALCULOS ───────────────────────────────────────────────────────────────────
+//
+
+    list< string > search_longest_words ( unsigned int longitud ) const;
+
+    list< string > search_rarest_words ( unsigned int puntuacion ) const;
+
+    unsigned int puntuacion_palabra ( string word ) const;
+    
 //
 // ─── SOBRECARGA DE OPERADORES ───────────────────────────────────────────────────
 //
