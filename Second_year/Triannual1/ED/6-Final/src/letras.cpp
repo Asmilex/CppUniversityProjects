@@ -7,16 +7,16 @@ using namespace std;
 //
 
     Letras::Letras (    string       archivo
-                    ,   unsigned int num_letras = default_random_letters ) {
+                    ,   unsigned int num_letras ) {
 
         load_file( archivo );
         generate_random_letters( num_letras );   
     }
 
     
-    Letras::Letras (    unsigned int score[26]  = {0}
-                    ,   unsigned int frec[26]   = {0}
-                    ,   unsigned int num_letras = default_random_letters ) {
+    Letras::Letras (    unsigned int score[26]  
+                    ,   unsigned int frec[26]   
+                    ,   unsigned int num_letras ) {
 
         for ( size_t i = 0; i < 26; ++i ) {
             puntuaciones[i] = score[i];
@@ -62,6 +62,7 @@ using namespace std;
 
         if ( !f ) {
             cerr << "No se ha podido abrir el archivo";
+            return false;
         }
         else {
             string linea;
@@ -92,19 +93,23 @@ using namespace std;
                     iremos metiendo por orden
                 */      
 
-                while ( !ss.eof() )
+                while ( !ss.eof() )  {
                     ss >> temp;
 
                     if ( stringstream(temp) >> valor && is_frec ) {
                         this->frecuencia[ index ] = valor;
                         is_frec = false;
                     }
-                    else if ( is_frec == false )
+                    else if ( is_frec == false ) {
                         this->puntuaciones [ index ] = valor;
                         is_frec = true;
-
+                    }
+                    
                     temp = "";
+                }
             }       
+
+            return true;
         }
     }    
 
@@ -124,13 +129,13 @@ using namespace std;
     
     void Letras::get_frecuencias ( int arr[26] ) const {
         for ( int i = 0; i < 26; ++i )
-            arr[i] = frecuencia[26];
+            arr[i] = frecuencia[i];
     }
 
     
     void Letras::get_puntuaciones ( int arr[26] ) const { 
         for ( int i = 0; i < 26; ++i )
-            arr[i] = puntuaciones[26];
+            arr[i] = puntuaciones[i];
     }
 
     
@@ -248,4 +253,22 @@ using namespace std;
             puntuaciones[i] = otro.puntuaciones[i];
             frecuencia[i]   = otro.frecuencia[i];
         }
+
+        return *this;
+    }
+
+    ostream& operator << ( ostream& os, const Letras& letras ) {
+        os << "Letras generadas:\n";
+        
+        for ( auto letra: letras.lista_letras )
+            os << letra << " ";
+        
+        os << "\nLetra | Puntuación | Frecuencia:\n";
+    
+        for ( char letra = 'A'; letra <= 'Z'; ++letra ) {
+            os << letra << " " << letras.get_puntuacion( letra )
+                        << " " << letras.get_frecuencia( letra ) << endl;
+        }
+
+        return os;
     }

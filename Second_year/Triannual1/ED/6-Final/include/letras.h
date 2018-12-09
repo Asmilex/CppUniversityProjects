@@ -65,7 +65,7 @@ public:
     /**
      * @brief destructor
      */
-    ~Letras ();
+    ~Letras () = default;
 
 //
 // ─── INTERFACES ─────────────────────────────────────────────────────────────────
@@ -114,4 +114,5 @@ public:
 
 ostream& operator << ( ostream& os, const Letras& letras );
 
+#include "../src/letras.cpp"
 #endif
