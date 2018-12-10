@@ -140,22 +140,34 @@ using namespace std;
 
     
     unsigned int Letras::get_frecuencia  ( const char letra ) const {
-        return frecuencia[ (int)toupper(letra) - 65 ];
+        if ( letra - 65 >= 0 && letra - 65 <= 25  )
+            return frecuencia[ (int)toupper(letra) - 65 ];
+        else
+            return 0;
     }
 
     
     unsigned int Letras::get_frecuencia  ( const int index  ) const {
-        return frecuencia[ index ];
+        if ( index >= 0 && index <= 25  )
+            return frecuencia[ index ];
+        else
+            return 0;
     }
 
     
     unsigned int Letras::get_puntuacion  ( const int index  ) const {
-        return puntuaciones[ index ];
+        if ( index >= 0 && index <= 25  )
+            return puntuaciones[ index ];
+        else
+            return false;
     }
 
     
     unsigned int Letras::get_puntuacion  ( const char letra ) const {
-        return puntuaciones[ (int)toupper(letra) - 65 ];
+        if ( letra - 65 >= 0 && letra - 65 <= 25  )
+            return puntuaciones[ (int)toupper(letra) - 65 ];
+        else
+            return 0;
     }
 
     
@@ -196,7 +208,6 @@ using namespace std;
             for ( auto palabra: diccionario ) {
                 if ( palabra.size() != max_length )
                     continue;
-                
                 
                 if ( all_of( palabra.begin(), palabra.end(), letter_belongs_list ) )
                     resultados.push_back( palabra );

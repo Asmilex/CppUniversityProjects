@@ -4,9 +4,9 @@
 #include <iostream>
 #include <list>
 #include <string>
-#include <random>
-#include <fstream>
-#include <algorithm>
+#include <random>           // Generar letras
+#include <fstream>          // ifstream
+#include <algorithm>        // all_of
 #include "diccionario.h"
 using namespace std;
 
