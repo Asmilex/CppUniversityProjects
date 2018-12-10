@@ -37,15 +37,40 @@ using namespace std;
 //
 
     void Letras::generate_random_letters( int numero ) {
+        lista_letras.clear();
+        
         mt19937 rng;
         rng.seed(std::random_device()());
-        uniform_int_distribution<mt19937::result_type> dist6(65,90); // distribution in range [1, 6]
-
-        lista_letras.clear();
-
-        for ( int i = 0; i < numero; ++i )
-            lista_letras.push_back( (char)dist6(rng) );
+        uniform_int_distribution<mt19937::result_type> dist(65,90); // distribution in range [1, 6]
         
+        char frecuencia_disponible[26];
+        for ( size_t i = 0; i < 26; ++i )
+            frecuencia_disponible[ i ] = frecuencia[ i ];
+
+        char letra;
+
+        size_t errors     = 0;
+        size_t max_errors = 10000;
+
+        /*
+            NOTE Buscaremos letras disponibles hasta que no se pueda encontrar ninguna otra
+            Esto, ahora mismo, está implementado como una tasa de errores máxima que asegura
+            en media la capacidad de conseguir las disponibles
+
+            Conforme más letras se pide, peor funciona. Es probable que deba cambiar esta función
+            Pero como de momento funciona, se queda
+        */
+        for ( int i = 0; i < numero && errors < max_errors; ++i ) {
+            letra = (char)dist( rng );
+
+            if ( frecuencia_disponible[ letra - 65 ] > 0 ) { 
+                frecuencia_disponible[ letra - 65 ]--;         
+                lista_letras.push_back( letra );               
+            }
+            else {
+                errors++;
+            }
+        }
     }
 
     
@@ -193,7 +218,7 @@ using namespace std;
         return sum;
     };
 
-    
+    // FIXME no mira disponibilidad de letras
     list< string > Letras::search_longest_words ( unsigned int longitud ) const {
         list < string > resultados;
         
@@ -204,7 +229,10 @@ using namespace std;
                             ,  toupper(letra) ) != lista_letras.end(); 
         };
 
-        for ( auto max_length = longitud; max_length >= 2; --max_length ) {
+        // La palabra más larga del español tiene 130 letras
+        auto max_length = min(longitud, (unsigned int) 130);
+
+        for ( max_length; max_length >= 1; --max_length ) {
             for ( auto palabra: diccionario ) {
                 if ( palabra.size() != max_length )
                     continue;
