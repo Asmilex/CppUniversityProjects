@@ -21,6 +21,7 @@ private:
 
     Diccionario diccionario;
     
+    //FIXME frecuencia y puntuaciones son extraídas del diccionario
     list < char > lista_letras      = {0};
     unsigned int  puntuaciones [26] = {0};  // NOTE ordenadas de A - Z. Sin Ñ
     unsigned int  frecuencia   [26] = {0};

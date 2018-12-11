@@ -210,7 +210,7 @@ using namespace std;
         return resultados;
     }    
 
-    
+    // FIXME probablemente erróneo
     list< string > Letras::search_rarest_words ( unsigned int puntuacion ) const {
         list < string > resultados;
 
@@ -247,45 +247,55 @@ using namespace std;
         return resultados;
     }
 
+    /*
+    Supongamos que 
+    A 7
+    B 5
+    C 4
+    D 0
+    E 3
+    F 2
+    Z 1
+
+    Se puede interpetrar como 
+    A A A A A A A B B B B B C C C C F F Z
+
+    Entonces, se puede generar un número aleatorio con una seed entre [1, 19].
+    Sea n un número generado aleatoriamente, n = 9
+    Entonces, n => B
+    */
     void Letras::generate_random_letters( int numero ) {
         lista_letras.clear();
         
+        int cota = 0;
+        for ( size_t i = 0; i < 26; ++i )
+            cota += frecuencia[ i ];
+
         mt19937 rng;
         rng.seed(std::random_device()());
-        uniform_int_distribution<mt19937::result_type> dist(65,90); // distribution in range [1, 6]
-        
-        int* frecuencia_disponible = new int [26];
-        for ( size_t i = 0; i < 26; ++i )
-            frecuencia_disponible[ i ] = frecuencia[ i ];
+        uniform_int_distribution<mt19937::result_type> dist(1, cota); // distribution in range [1, cota]
 
-        char letra;
+        int generado;
+        int counting;
+        bool keep_searching;  
 
-        size_t errors     = 0;
-        size_t max_errors = 100000;
+        for ( size_t num = 0; num < numero; ++num ) {
+            generado = dist( rng );
 
-        /*
-            NOTE Buscaremos letras disponibles hasta que no se pueda encontrar ninguna otra
-            Esto, ahora mismo, está implementado como una tasa de errores máxima que asegura
-            en media la capacidad de conseguir las disponibles
+            // Reinicializar variables para la ubicación del nuevo elemento
+            keep_searching = true;
+            counting = 0;
 
-            Conforme más letras se pide, peor funciona. Es probable que deba cambiar esta función
-            Pero como de momento funciona, se queda
-        */
-        for ( int i = 0; i < numero && errors < max_errors; ++i ) {
-            letra = (char)dist( rng );
-
-            if ( frecuencia_disponible[ letra - 65 ] > 0 ) { 
-                --frecuencia_disponible[ letra - 65 ];         
-                lista_letras.push_back( letra );               
-            }
-            else {
-                errors++;
+            for ( size_t i = 0; i < 26 && keep_searching; ++i) {
+                counting += frecuencia[i];
+                
+                if ( generado <= counting) {     // Primera ocurrencia
+                    lista_letras.push_back( (char)(i + 65) );
+                    keep_searching = false;
+                }
             }
         }
-
-        delete [] frecuencia_disponible;
     }
-
 //
 // ─── SOBRECARGA DE OPERADORES ───────────────────────────────────────────────────
 //
