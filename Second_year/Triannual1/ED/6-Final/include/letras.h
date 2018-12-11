@@ -20,18 +20,18 @@ class Letras {
 private:
 
     Diccionario diccionario;
+    
     list < char > lista_letras      = {0};
     unsigned int  puntuaciones [26] = {0};  // NOTE ordenadas de A - Z. Sin Ñ
     unsigned int  frecuencia   [26] = {0};
 
     static const unsigned int default_random_letters = 8;
+
 //
 // ─── METODOS PRIVADOS ───────────────────────────────────────────────────────────
 //
 
     bool load_file ( string archivo );
-    void generate_random_letters ( int numero );
-
 
 public:
 
@@ -96,6 +96,8 @@ public:
 //
 // ─── CALCULOS ───────────────────────────────────────────────────────────────────
 //
+
+    void generate_random_letters ( int numero );
 
     list< string > search_longest_words ( unsigned int longitud ) const;
 

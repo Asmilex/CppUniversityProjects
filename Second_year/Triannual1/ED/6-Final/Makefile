@@ -3,7 +3,7 @@ OBJ = obj
 SRC = src
 BIN = bin
 CXX = clang++
-CPPFLAGS = -Wall -std=c++11 -g 
+CPPFLAGS = -Wall -std=c++11 -g
 
 all: $(BIN)/testdiccionario $(BIN)/testletras
 

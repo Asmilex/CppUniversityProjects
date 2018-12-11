@@ -35,44 +35,6 @@ using namespace std;
 //
 // ─── METODOS PRIVADOS ───────────────────────────────────────────────────────────
 //
-
-    void Letras::generate_random_letters( int numero ) {
-        lista_letras.clear();
-        
-        mt19937 rng;
-        rng.seed(std::random_device()());
-        uniform_int_distribution<mt19937::result_type> dist(65,90); // distribution in range [1, 6]
-        
-        char frecuencia_disponible[26];
-        for ( size_t i = 0; i < 26; ++i )
-            frecuencia_disponible[ i ] = frecuencia[ i ];
-
-        char letra;
-
-        size_t errors     = 0;
-        size_t max_errors = 10000;
-
-        /*
-            NOTE Buscaremos letras disponibles hasta que no se pueda encontrar ninguna otra
-            Esto, ahora mismo, está implementado como una tasa de errores máxima que asegura
-            en media la capacidad de conseguir las disponibles
-
-            Conforme más letras se pide, peor funciona. Es probable que deba cambiar esta función
-            Pero como de momento funciona, se queda
-        */
-        for ( int i = 0; i < numero && errors < max_errors; ++i ) {
-            letra = (char)dist( rng );
-
-            if ( frecuencia_disponible[ letra - 65 ] > 0 ) { 
-                frecuencia_disponible[ letra - 65 ]--;         
-                lista_letras.push_back( letra );               
-            }
-            else {
-                errors++;
-            }
-        }
-    }
-
     
     bool Letras::load_file ( string archivo ) {
         /*
@@ -283,6 +245,45 @@ using namespace std;
         }
 
         return resultados;
+    }
+
+    void Letras::generate_random_letters( int numero ) {
+        lista_letras.clear();
+        
+        mt19937 rng;
+        rng.seed(std::random_device()());
+        uniform_int_distribution<mt19937::result_type> dist(65,90); // distribution in range [1, 6]
+        
+        int* frecuencia_disponible = new int [26];
+        for ( size_t i = 0; i < 26; ++i )
+            frecuencia_disponible[ i ] = frecuencia[ i ];
+
+        char letra;
+
+        size_t errors     = 0;
+        size_t max_errors = 100000;
+
+        /*
+            NOTE Buscaremos letras disponibles hasta que no se pueda encontrar ninguna otra
+            Esto, ahora mismo, está implementado como una tasa de errores máxima que asegura
+            en media la capacidad de conseguir las disponibles
+
+            Conforme más letras se pide, peor funciona. Es probable que deba cambiar esta función
+            Pero como de momento funciona, se queda
+        */
+        for ( int i = 0; i < numero && errors < max_errors; ++i ) {
+            letra = (char)dist( rng );
+
+            if ( frecuencia_disponible[ letra - 65 ] > 0 ) { 
+                --frecuencia_disponible[ letra - 65 ];         
+                lista_letras.push_back( letra );               
+            }
+            else {
+                errors++;
+            }
+        }
+
+        delete [] frecuencia_disponible;
     }
 
 //
