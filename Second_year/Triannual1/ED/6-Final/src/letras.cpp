@@ -7,17 +7,24 @@ using namespace std;
 //
 
     // FIXME reorganizar constructores atendiendo al cálculo de frecuencias/puntuacion
-    Letras::Letras (    string       archivo
+    Letras::Letras (    Diccionario  dic
                     ,   unsigned int num_letras ) {
 
-        load_file( archivo );
+        this->diccionario = dic;
+        
+        calculate_frequency();
+        calculate_score();
+        
         generate_random_letters( num_letras );   
     }
 
     
-    Letras::Letras (    unsigned int score[26]  
+    Letras::Letras (    Diccionario dic
+                    ,   unsigned int score[26]  
                     ,   unsigned int frec[26]   
                     ,   unsigned int num_letras ) {
+
+        this->diccionario = dic;
 
         for ( size_t i = 0; i < 26; ++i ) {
             puntuaciones[i] = score[i];
@@ -40,13 +47,31 @@ using namespace std;
     void Letras::calculate_score () {
         long int total_letras = 0;
 
-        for ( size_t i = 0; i < 26; ++i )
+        int maximo = 0, minimo = 100000;
+
+        for ( size_t i = 0; i < 26; ++i ) {
             total_letras += frecuencia[i];
+            
+            if ( frecuencia[i] > maximo)
+                maximo = frecuencia[i];
+            
+            if ( frecuencia[i] < minimo )
+                minimo = frecuencia[i];
+        }
         
         if ( total_letras != 0)
-            for ( size_t i = 0; i < 26; ++i )
-                puntuaciones[i] = (1 - frecuencia[i] / total_letras) * 10;
+            for ( size_t i = 0; i < 26; ++i ) {
+                if ( frecuencia[i] != 0 ) {
+                    puntuaciones[i] = ( 1.2*maximo - frecuencia[i] ) / (50*minimo); 
+
+                    // puntuaciones[i] = (1 - frecuencia[i] / total_letras) * 10
+                    // FIXME underflow
+                }
+                else
+                    puntuaciones[i] = 0;
+             }
     }
+
 
     void Letras::calculate_frequency () {
         for ( size_t i = 0; i < 26; ++i )

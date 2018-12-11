@@ -12,15 +12,17 @@ int juego_longitud ( Letras& letras ) {
     char opcion;
     size_t amount_letters = letras.get_amount_letters();
 
+    cout << letras;
+    
     do {
         
         list< char > lista_letras = letras.get_list_letters();
         
-        cout << "Lista de lerras generadas:\n";
+        cout << "\nLista de lerras generadas:\n";
         for ( auto letra: lista_letras )
             cout << letra << " ";
 
-        cout << "Búsqueda de palabras con una longitud máxima de " << letras.get_amount_letters() << ":\n";
+        cout << "\nBúsqueda de palabras con una longitud máxima de " << letras.get_amount_letters() << ":\n";
         
         auto palabras = letras.search_longest_words( amount_letters );
         for ( auto word: palabras )
@@ -67,8 +69,8 @@ int main ( int argc, char const *argv[] ) {
     // Letras
     string archivo_letras = argv[1];
     
-    Letras letras( archivo_letras, atoi( argv[3] ) );
-    letras.load_diccionario( diccionario );
+    Letras letras( diccionario, atoi(argv[3]) );
+    
 
     // ─────────────────────────────────────────────────────────── MODOS DE JUEGO ─────
 

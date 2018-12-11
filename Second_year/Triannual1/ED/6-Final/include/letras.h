@@ -21,7 +21,6 @@ private:
 
     Diccionario diccionario;
     
-    //FIXME frecuencia y puntuaciones son extraídas del diccionario
     list < char > lista_letras      = {0};
     unsigned int  puntuaciones [26] = {0};  // NOTE ordenadas de A - Z. Sin Ñ
     unsigned int  frecuencia   [26] = {0};
@@ -34,7 +33,7 @@ private:
 
     void calculate_score ();
     void calculate_frequency ();
-    bool load_file ( string archivo );
+    bool load_file ( string config_file );
 
 public:
 
@@ -48,8 +47,9 @@ public:
      * @param frec: frecuencia de las letras
      * @num_letras: número de letras a generar
      */
-    Letras (    unsigned int score[26]  = {0}
-            ,   unsigned int frec[26]   = {0}
+    Letras (    Diccionario dic
+            ,   unsigned int score[26]
+            ,   unsigned int frec[26] 
             ,   unsigned int num_letras = default_random_letters );
     
     /**
@@ -57,7 +57,7 @@ public:
      * @param archivo: archivo a cargar
      * @param num_letras: número de letras a generar
      */
-    Letras (    string       archivo
+    Letras (    Diccionario  dic
             ,   unsigned int num_letras = default_random_letters );
 
     /**
