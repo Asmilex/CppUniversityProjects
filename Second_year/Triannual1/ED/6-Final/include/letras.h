@@ -32,6 +32,8 @@ private:
 // ─── METODOS PRIVADOS ───────────────────────────────────────────────────────────
 //
 
+    void calculate_score ();
+    void calculate_frequency ();
     bool load_file ( string archivo );
 
 public:

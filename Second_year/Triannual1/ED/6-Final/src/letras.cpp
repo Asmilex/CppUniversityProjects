@@ -6,6 +6,7 @@ using namespace std;
 // ─── CONSTRUCTORES ──────────────────────────────────────────────────────────────
 //
 
+    // FIXME reorganizar constructores atendiendo al cálculo de frecuencias/puntuacion
     Letras::Letras (    string       archivo
                     ,   unsigned int num_letras ) {
 
@@ -35,7 +36,29 @@ using namespace std;
 //
 // ─── METODOS PRIVADOS ───────────────────────────────────────────────────────────
 //
-    
+
+    void Letras::calculate_score () {
+        long int total_letras = 0;
+
+        for ( size_t i = 0; i < 26; ++i )
+            total_letras += frecuencia[i];
+        
+        if ( total_letras != 0)
+            for ( size_t i = 0; i < 26; ++i )
+                puntuaciones[i] = (1 - frecuencia[i] / total_letras) * 10;
+    }
+
+    void Letras::calculate_frequency () {
+        for ( size_t i = 0; i < 26; ++i )
+            frecuencia[i] = 0;
+
+        for ( auto palabra: diccionario )
+            for ( auto letra: palabra )
+                frecuencia[ toupper(letra) - 65 ]++;
+    }  
+
+
+    // FIXME calcular frecuencias
     bool Letras::load_file ( string archivo ) {
         /*
             Estructura:
@@ -180,7 +203,7 @@ using namespace std;
         return sum;
     };
 
-    // FIXME no mira disponibilidad de letras
+
     list< string > Letras::search_longest_words ( unsigned int longitud ) const {
         list < string > resultados;
         
@@ -191,15 +214,38 @@ using namespace std;
                             ,  toupper(letra) ) != lista_letras.end(); 
         };
 
-        // La palabra más larga del español tiene 130 letras
+        // NOTE La palabra más larga del español tiene 130 letras
         auto max_length = min(longitud, (unsigned int) 130);
+        
+        bool is_pushed;
+        int count_palabra, count_lista;
+        /*
+            Para cada letra de la lista de letras, 
+            el número de ocurrencias en la palabra debe ser menor o igual que
+            las veces que está presente en la lista
+        */
 
         for ( max_length; max_length >= 1; --max_length ) {
             for ( auto palabra: diccionario ) {
+                is_pushed = true;
+
                 if ( palabra.size() != max_length )
                     continue;
+                    
+                if ( !all_of( palabra.begin(), palabra.end(), letter_belongs_list) )
+                    continue;
                 
-                if ( all_of( palabra.begin(), palabra.end(), letter_belongs_list ) )
+                for ( char letra: lista_letras ) {
+                    count_palabra = count ( palabra.begin(), palabra.end(), tolower(letra) );
+                    count_lista = count ( lista_letras.begin(), lista_letras.end(), letra );
+                    
+                    if ( count_palabra > count_lista ) {
+                            is_pushed = false;
+                            break;
+                    }          
+                }
+            
+                if ( is_pushed )
                     resultados.push_back( palabra );
             }
 
@@ -209,6 +255,7 @@ using namespace std;
 
         return resultados;
     }    
+
 
     // FIXME probablemente erróneo
     list< string > Letras::search_rarest_words ( unsigned int puntuacion ) const {
