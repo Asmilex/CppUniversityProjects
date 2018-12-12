@@ -6,3 +6,7 @@ It mainly focuses on common programming concepts, such as conditionals, loops, a
 ## Second triannual
 This term introduces dynamic memory, C-arrays,  file handling and progresses in `classes`. the most interesting part is the `practicas` folder.
 DGIIM Souls is a WIP project that will not get finished, most likely ¯\_(ツ)_/¯ 
+
+# Year two: diving into OOP
+## First triannual 
+**Data structure** handles the use of different structures in order to solve boring problems. The only notable project is the last one. Class design was made by myself. Feedback appreciated
