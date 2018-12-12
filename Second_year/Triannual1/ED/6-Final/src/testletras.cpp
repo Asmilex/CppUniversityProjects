@@ -5,17 +5,11 @@
 using namespace std;
 
 int juego_puntuaciones ( Letras letras ) { 
+    char opcion; 
+    size_t amount_letters = letras.get_list_letters().size();
 
-}
-
-int juego_longitud ( Letras& letras ) {
-    char opcion;
-    size_t amount_letters = letras.get_amount_letters();
-
-    //cout << letras;
-    
     do {
-
+        letras.generate_random_letters( amount_letters );
         list< char > lista_letras = letras.get_list_letters();
         
         cout << "\nLista de lerras generadas:\n";
@@ -26,7 +20,45 @@ int juego_longitud ( Letras& letras ) {
         cout << "\nDame tu solución: ";
         cin >> sol_user;
 
-        if ( !letras.is_word_diccionario(sol_user) )
+        if ( letras.pertenece_bolsa(sol_user) )
+            cout << "La puntuación de tu palabra es " << letras.puntuacion_palabra(sol_user) << endl;
+        else
+            cout << "La palabra no pertenece al diccionario\n";
+    
+        cout << "\nHold my beer: " << endl;
+        auto palabras = letras.search_rarest_words();
+
+        for ( auto word: palabras )
+            cout << word << " (" << letras.puntuacion_palabra(word) << "), " ;
+
+        cout << "\n\n¿Quieres seguir jugando? (S/N) ";
+        cin >> opcion;
+
+        
+    } while ( toupper(opcion) == 'S' );
+
+    return 0;
+}
+
+int juego_longitud ( Letras& letras ) {
+    char opcion;
+    size_t amount_letters = letras.get_amount_letters();
+
+    //cout << letras;
+    
+    do {
+        letras.generate_random_letters( amount_letters );
+        list< char > lista_letras = letras.get_list_letters();
+        
+        cout << "\nLista de lerras generadas:\n";
+        for ( auto letra: lista_letras )
+            cout << letra << " ";
+
+        string sol_user;
+        cout << "\nDame tu solución: ";
+        cin >> sol_user;
+
+        if ( !letras.pertenece_bolsa(sol_user) )
             cout << "\nLa palabra que me has dado no está en el diccionario\n";
         else
             cout << "\nPuntuación de la palabra: " << sol_user.size() << endl; 
@@ -41,12 +73,14 @@ int juego_longitud ( Letras& letras ) {
         cout << "\n\n¿Quieres seguir jugando? (S/N) ";
         cin >> opcion;
 
-        letras.generate_random_letters( amount_letters );
 
     } while ( toupper(opcion) == 'S');
 
     return 0;
 }
+
+
+
 
 int main ( int argc, char const *argv[] ) {
 
@@ -89,6 +123,17 @@ int main ( int argc, char const *argv[] ) {
         juego_puntuaciones( letras );
     else
         juego_longitud( letras );
+
+    char opcion; 
+    cout << "\n¿Quieres guardar los resultados en el fichero " << argv[1] << "? (S/N) ";
+    cin >> opcion;
+
+    if ( toupper(opcion) ==  'S' ) {
+        if (letras.save_file( argv[1] ) )
+            cout << "\nArchivo guardado correctamente\n";
+        else
+            cout << "\nNo se ha podido guardar el archivo\n";
+    }
 
     return 0;
 }

@@ -34,7 +34,6 @@ private:
     void calculate_score ();
     void calculate_frequency ();
     bool load_file ( string config_file );
-    bool save_file ( string config_file );
 
 public:
 
@@ -88,14 +87,11 @@ public:
     void         get_frecuencias ( int arr[26] )      const;
     void         get_puntuaciones( int arr[26] )      const; 
     unsigned int get_frecuencia  ( const char letra ) const;
-    unsigned int get_frecuencia  ( const int index  ) const;
-    unsigned int get_puntuacion  ( const int index  ) const;
     unsigned int get_puntuacion  ( const char letra ) const;
 
-
-    void load_diccionario ( const Diccionario& dic );
-
     Diccionario get_diccionario () const;
+
+    bool save_file ( string config_file );
 
 //
 // ─── CALCULOS ───────────────────────────────────────────────────────────────────
@@ -103,10 +99,10 @@ public:
 
     void generate_random_letters ( int numero );
 
-    bool is_word_diccionario ( string palabra ) const;
+    bool pertenece_bolsa ( string palabra ) const;
     list< string > search_longest_words ( unsigned int longitud ) const;
 
-    list< string > search_rarest_words ( unsigned int puntuacion ) const;
+    list< string > search_rarest_words () const;
 
     unsigned int puntuacion_palabra ( string word ) const;
     

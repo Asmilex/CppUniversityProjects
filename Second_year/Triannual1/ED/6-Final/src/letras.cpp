@@ -159,8 +159,8 @@ using namespace std;
         salida << "#Letra FAbs Puntuación\n";
         
         for ( size_t i = 0; i < 26; ++i ) {
-            salida << (char)i+65 << "  " << frecuencia[i] 
-                                 << "  " << puntuaciones[i] << endl;
+            salida << (char)(i+65) << "  " << frecuencia[i] 
+                                   << "  " << puntuaciones[i] << endl;
         }
 
         return true;
@@ -193,41 +193,18 @@ using namespace std;
 
     
     unsigned int Letras::get_frecuencia  ( const char letra ) const {
-        if ( letra - 65 >= 0 && letra - 65 <= 25  )
+        if ( toupper(letra) - 65 >= 0 && toupper(letra) - 65 <= 25  )
             return frecuencia[ (int)toupper(letra) - 65 ];
         else
             return 0;
     }
-
-    
-    unsigned int Letras::get_frecuencia  ( const int index  ) const {
-        if ( index >= 0 && index <= 25  )
-            return frecuencia[ index ];
-        else
-            return 0;
-    }
-
-    
-    unsigned int Letras::get_puntuacion  ( const int index  ) const {
-        if ( index >= 0 && index <= 25  )
-            return puntuaciones[ index ];
-        else
-            return false;
-    }
-
     
     unsigned int Letras::get_puntuacion  ( const char letra ) const {
-        if ( letra - 65 >= 0 && letra - 65 <= 25  )
+        if ( toupper(letra) - 65 >= 0 && toupper(letra) - 65 <= 25  )
             return puntuaciones[ (int)toupper(letra) - 65 ];
         else
             return 0;
     }
-
-    
-    void Letras::load_diccionario ( const Diccionario& dic ) {
-        this->diccionario = dic;
-    }
-
     
     Diccionario Letras::get_diccionario () const {
         return diccionario;
@@ -241,7 +218,7 @@ using namespace std;
         int sum = 0; 
             
         for ( auto letter: word )
-            sum += get_puntuacion( letter );
+            sum += get_puntuacion( toupper(letter) );
             
         return sum;
     };
@@ -250,45 +227,17 @@ using namespace std;
     list< string > Letras::search_longest_words ( unsigned int longitud ) const {
         list < string > resultados;
         
-        auto letter_belongs_list = [ this ]( char letra ) 
-        { 
-                return find(   this->lista_letras.begin()
-                            ,  this->lista_letras.end() 
-                            ,  toupper(letra) ) != lista_letras.end(); 
-        };
-
         // NOTE La palabra más larga del español tiene 130 letras
-        auto max_length = min(longitud, (unsigned int) 130);
         
-        bool is_pushed;
-        int count_palabra, count_lista;
-        /*
-            Para cada letra de la lista de letras, 
-            el número de ocurrencias en la palabra debe ser menor o igual que
-            las veces que está presente en la lista
-        */
 
-        for ( max_length; max_length >= 1; --max_length ) {
+        for ( auto max_length = min( longitud, (unsigned int)130 ); 
+                   max_length >= 1; --max_length ) {
+
             for ( auto palabra: diccionario ) {
-                is_pushed = true;
-
                 if ( palabra.size() != max_length )
                     continue;
-                    
-                if ( !all_of( palabra.begin(), palabra.end(), letter_belongs_list) )
-                    continue;
                 
-                for ( char letra: lista_letras ) {
-                    count_palabra = count ( palabra.begin(), palabra.end(), tolower(letra) );
-                    count_lista = count ( lista_letras.begin(), lista_letras.end(), letra );
-                    
-                    if ( count_palabra > count_lista ) {
-                            is_pushed = false;
-                            break;
-                    }          
-                }
-            
-                if ( is_pushed )
+                if ( pertenece_bolsa(palabra) )
                     resultados.push_back( palabra );
             }
 
@@ -300,44 +249,35 @@ using namespace std;
     }    
 
 
-    // FIXME probablemente erróneo
-    list< string > Letras::search_rarest_words ( unsigned int puntuacion ) const {
+    
+    list< string > Letras::search_rarest_words () const {
         list < string > resultados;
-
-        auto letter_belongs_list = [ this ]( char letra ) 
-        { 
-                return find(   this->lista_letras.begin()
-                            ,  this->lista_letras.end() 
-                            ,  toupper(letra) ) != lista_letras.end(); 
-        };
-
-        // REVIEW solución poco eficiente. 
-        // Primero consigues la puntuación de ciertas palabras, luego las buscas de nuevo
-        
-        // Cacheamos puntuaciones
         int maximo = 0;
 
         for ( auto palabra: diccionario ) {
-            if (    puntuacion_palabra( palabra ) > maximo  
-                &&  all_of( palabra.begin(), palabra.end(), letter_belongs_list ) ) {
-                    
-                maximo = puntuacion_palabra( palabra );
-            }
-        }   
-
-        // Buscamos las palabras adecuadas
-        for ( auto palabra: diccionario ) {
-            if (    puntuacion_palabra( palabra ) == maximo  
-                &&  all_of( palabra.begin(), palabra.end(), letter_belongs_list ) ) {
-                    
-                resultados.push_back( palabra );
+            if (    puntuacion_palabra( palabra ) >= maximo  
+                &&  pertenece_bolsa( palabra ) ) {
+            
+                if ( puntuacion_palabra(palabra) > maximo ) {
+                    resultados.clear();
+                    maximo = puntuacion_palabra(palabra);
+                }
+                
+                resultados.push_back(palabra);
             }
         }
 
         return resultados;
     }
 
-    bool Letras::is_word_diccionario ( string palabra ) const {
+
+    bool Letras::pertenece_bolsa ( string palabra ) const {
+        /*
+            Para cada letra de la lista de letras, 
+            el número de ocurrencias en la palabra debe ser menor o igual que
+            las veces que está presente en la lista
+        */
+
         auto letter_belongs_list = [ this ]( char letra ) 
         { 
                 return find(   this->lista_letras.begin()

@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/bin/testletras",
-            "args": ["./files/letras.txt", "./files/diccionario1000.txt", "5", "L"],
+            "args": ["./files/letras.txt", "./files/diccionario1000.txt", "8", "P"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
