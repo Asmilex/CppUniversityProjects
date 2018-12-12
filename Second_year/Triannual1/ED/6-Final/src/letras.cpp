@@ -146,7 +146,25 @@ using namespace std;
 
             return true;
         }
-    }    
+    }
+
+    bool Letras::save_file ( string config_file ) {
+        ofstream salida ( config_file );
+
+        if ( !salida ) {
+            cerr << "No se ha podido crear el archivo de destino";
+            return false;
+        }
+
+        salida << "#Letra FAbs Puntuación\n";
+        
+        for ( size_t i = 0; i < 26; ++i ) {
+            salida << (char)i+65 << "  " << frecuencia[i] 
+                                 << "  " << puntuaciones[i] << endl;
+        }
+
+        return true;
+    }
 
 //
 // ─── INTERFACES ─────────────────────────────────────────────────────────────────
@@ -319,6 +337,43 @@ using namespace std;
         return resultados;
     }
 
+    bool Letras::is_word_diccionario ( string palabra ) const {
+        auto letter_belongs_list = [ this ]( char letra ) 
+        { 
+                return find(   this->lista_letras.begin()
+                            ,  this->lista_letras.end() 
+                            ,  toupper(letra) ) != lista_letras.end(); 
+        };
+        
+        bool found;
+        int count_palabra, count_lista;
+
+        for ( auto entrada: diccionario ) {
+            found = true;
+
+            if ( palabra != entrada )
+                continue;
+            
+            // Comprobar que la palabra cumple los requisitos de la lista
+            if ( !all_of( palabra.begin(), palabra.end(), letter_belongs_list) )
+                continue;
+
+            for ( char letra: lista_letras ) {
+                count_palabra = count ( palabra.begin(), palabra.end(), tolower(letra) );
+                count_lista = count ( lista_letras.begin(), lista_letras.end(), letra );
+                
+                if ( count_palabra > count_lista ) {
+                    found = false;
+                    break;
+                }
+            }
+
+            if ( found )
+                return true;
+        }
+
+        return false;
+    }
     /*
     Supongamos que 
     A 7

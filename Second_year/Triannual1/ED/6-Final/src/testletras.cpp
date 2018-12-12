@@ -12,23 +12,33 @@ int juego_longitud ( Letras& letras ) {
     char opcion;
     size_t amount_letters = letras.get_amount_letters();
 
-    cout << letras;
+    //cout << letras;
     
     do {
-        
+
         list< char > lista_letras = letras.get_list_letters();
         
         cout << "\nLista de lerras generadas:\n";
         for ( auto letra: lista_letras )
             cout << letra << " ";
 
+        string sol_user;
+        cout << "\nDame tu solución: ";
+        cin >> sol_user;
+
+        if ( !letras.is_word_diccionario(sol_user) )
+            cout << "\nLa palabra que me has dado no está en el diccionario\n";
+        else
+            cout << "\nPuntuación de la palabra: " << sol_user.size() << endl; 
+
+        
         cout << "\nBúsqueda de palabras con una longitud máxima de " << letras.get_amount_letters() << ":\n";
         
         auto palabras = letras.search_longest_words( amount_letters );
         for ( auto word: palabras )
-            cout << word << " ";
+            cout << word << " (" << word.size() << "), " ;
 
-        cout << "\n¿Quieres seguir jugando? (S/N) ";
+        cout << "\n\n¿Quieres seguir jugando? (S/N) ";
         cin >> opcion;
 
         letras.generate_random_letters( amount_letters );
@@ -74,11 +84,11 @@ int main ( int argc, char const *argv[] ) {
 
     // ─────────────────────────────────────────────────────────── MODOS DE JUEGO ─────
 
-    int exit_value;
 
-    strcmp( argv[4], "P" ) == 0 
-        ? exit_value = juego_puntuaciones( letras ) 
-        : exit_value = juego_longitud( letras );
+    if ( strcmp( argv[4], "P" ) == 0 )
+        juego_puntuaciones( letras );
+    else
+        juego_longitud( letras );
 
-    return exit_value;
+    return 0;
 }

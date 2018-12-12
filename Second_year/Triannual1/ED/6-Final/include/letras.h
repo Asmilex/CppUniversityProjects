@@ -34,6 +34,7 @@ private:
     void calculate_score ();
     void calculate_frequency ();
     bool load_file ( string config_file );
+    bool save_file ( string config_file );
 
 public:
 
@@ -102,6 +103,7 @@ public:
 
     void generate_random_letters ( int numero );
 
+    bool is_word_diccionario ( string palabra ) const;
     list< string > search_longest_words ( unsigned int longitud ) const;
 
     list< string > search_rarest_words ( unsigned int puntuacion ) const;
