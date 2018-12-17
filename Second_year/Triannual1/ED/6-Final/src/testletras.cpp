@@ -118,6 +118,7 @@ int main ( int argc, char const *argv[] ) {
 
     // ─────────────────────────────────────────────────────────── MODOS DE JUEGO ─────
 
+    cout << letras;
 
     if ( strcmp( argv[4], "P" ) == 0 )
         juego_puntuaciones( letras );

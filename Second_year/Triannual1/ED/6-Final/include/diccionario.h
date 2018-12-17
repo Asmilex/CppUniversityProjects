@@ -24,17 +24,17 @@ public:
 //
 
 	/**
-	 * @brief: construye un diccionario vacío
+	 * @brief Construye un diccionario vacío
 	 */
 	Diccionario () = default;
 
 	/**
-	 * @brief: constructor de copia
+	 * @brief Constructor de copia
 	 */
 	Diccionario ( const Diccionario& diccionario );
 
 	/**
-	 * @brief: destructor de la clase
+	 * @brief Destructor de la clase
 	 */
 	~Diccionario () = default;
 
@@ -43,20 +43,20 @@ public:
 //
 
 	/**
-	 * @brief: Consulta el tamaño
-	 * @return: cantidad de palabras almacenadas
+	 * @brief Consulta el tamaño
+	 * @return Cantidad de palabras almacenadas
 	 */	
 	size_t size () const;
 
 	/**
-	 * @brief: Mira si existe dicha palabra
-	 * @return: true si está, false si no
+	 * @brief Mira si existe dicha palabra
+	 * @return true si está, false si no
 	 */
 	bool word_exists ( const string & palabra ) const;
 
 	/**
-	 * @brief: consulta cuántas palabras tienen dicha longitud
-	 * @return: vector con dicha cantidad de palabras
+	 * @brief Consulta cuántas palabras tienen dicha longitud
+	 * @return Vector con dicha cantidad de palabras
 	 */
 	vector< string > length ( const size_t longitud ) const;
 
@@ -65,10 +65,10 @@ public:
 //
 
 	/**
-	 * @brief: añade una nueva palabra al diccionario
-	 * @param nueva_palabra: palabra a añadir
+	 * @brief Añade una nueva palabra al diccionario
+	 * @param nueva_palabra Palabra a añadir
 	 */
-	void add ( const string& nueva_palabra);
+	void add ( const string& nueva_palabra );
 
 //
 // ─── SOBRECARGA DE OPERADORES ───────────────────────────────────────────────────

@@ -32,25 +32,25 @@ private:
 //
 
     /**
-     * @brief: dada una frecuencia, calcula la puntuación asociada
+     * @brief Dada una frecuencia, calcula la puntuación asociada
      * El resultado se ve reflejado en el objeto puntuaciones
      */
     void calculate_score ();
 
     /**
-     * @brief: calcula las frecuencias asociadas para cada letra
+     * @brief Calcula las frecuencias asociadas para cada letra
      * El resultado se obtiene dadas las entradas del diccionario
      */
     void calculate_frequency ();
 
     /**
-     * @brief: carga las frecuencias y las puntuaciones reflejadas en el archivo
-     * @param config_file: archivo a cargar
+     * @brief Carga las frecuencias y las puntuaciones reflejadas en el archivo
+     * @param config_file Archivo a cargar
      * Formato del archivo: 
             #Letra Cantidad Puntos
             A   12   1
             ...
-     * @return: true si se ha conseguido. Si ha habido fallos, false
+     * @return true si se ha conseguido. Si ha habido fallos, false
      */
     bool load_file ( string config_file );
 
@@ -61,20 +61,20 @@ public:
 //
 
     /**
-     * @brief: constructor por parámetros. 
-     * @param dic: 
-     * @param num_letras: número de letras a generar
+     * @brief Constructor por parámetros. 
+     * @param dic Diccionario a cargar
+     * @param num_letras Número de letras a generar
      * @note Las frecuencias y las puntuaciones se consiguen a partir del diccionario
      */
     Bolsa_Letras (    Diccionario  dic
                   ,   unsigned int num_letras = default_random_letters );
     
     /**
-     * @brief constructor parametrizado
-     * @param dic: diccionario a usar
-     * @param score: puntuaciones de las letras
-     * @param frec: frecuencia de las letras
-     * @param num_letras: número de letras a generar
+     * @brief Constructor parametrizado
+     * @param dic Diccionario a usar
+     * @param score Puntuaciones de las letras
+     * @param frec Frecuencia de las letras
+     * @param num_letras Número de letras a generar
      */
     Bolsa_Letras (    Diccionario dic
                   ,   unsigned int score[26]
@@ -82,8 +82,8 @@ public:
                   ,   unsigned int num_letras = default_random_letters );
 
     /**
-     * @brief constructor de copia
-     * @param otro: objeto a copiar
+     * @brief Constructor de copia
+     * @param otro Objeto a copiar
      */
     Bolsa_Letras ( const Bolsa_Letras& otro );
 
@@ -97,38 +97,38 @@ public:
 //
 
     /**
-     * @brief: devuelve la cantidad de letras almacenadas
-     * @return: el número de letras generadas aleatoriamente
+     * @brief Devuelve la cantidad de letras almacenadas
+     * @return El número de letras generadas aleatoriamente
      */
     size_t get_amount_letters () const;
 
     /**
-     * @brief: devuelve la lista de letras almacenadas
-     * @return: listado de letras
+     * @brief Devuelve la lista de letras almacenadas
+     * @return Listado de letras
      */
     list < char > get_list_letters () const;
 
     /**
-     * @brief: devuelve la lista de frecuencias total
-     * @param arr: array donde almacenarlas
+     * @brief Devuelve la lista de frecuencias total
+     * @param arr Array donde almacenarlas
      */
     void get_frecuencias ( int arr[26] )      const;
    
     /**
-     * @brief: devuelve la lista de puntuaciones total
-     * @param arr: array donde almacenarlas
+     * @brief Devuelve la lista de puntuaciones total
+     * @param arr Array donde almacenarlas
      */
     void get_puntuaciones( int arr[26] )      const; 
     
     /**
-     * @brief devuelve la frecuencia de una letra en específico
-     * @return: frecuencia de la letra
+     * @brief Devuelve la frecuencia de una letra en específico
+     * @return Frecuencia de la letra
      */
     unsigned int get_frecuencia  ( const char letra ) const;
 
     /**
-     * @brief devuelve la puntuación de una letra en específico
-     * @return: frecuencia de la letra
+     * @brief Devuelve la puntuación de una letra en específico
+     * @return Frecuencia de la letra
      */
     unsigned int get_puntuacion  ( const char letra ) const;
 
@@ -140,7 +140,7 @@ public:
 
     /**
      * @brief Guarda la frecuencia y la puntuación de cada letra
-     * @param config_file: archivo donde guardar
+     * @param config_file Archivo donde guardar
      * @return true si ha funcionado, false si ha habido errores
      */
     bool save_file ( string config_file );
@@ -151,38 +151,47 @@ public:
 
     /**
      * @brief Genera un cierto número de letras aleatorias a partir de la frecuencia
-     * @param numero: cuántas letras generar
+     * @param numero Cuántas letras generar
      */
     void generate_random_letters ( int numero );
     
     /**
-     * @brief busca las palabras más largas posibles según al lista de letras
-     * @param longitud: longitud máxima que buscar
-     * @return las palabras más largas
+     * @brief Busca las palabras más largas posibles según al lista de letras
+     * @param longitud Longitud máxima que buscar
+     * @return :as palabras más largas
      */
     list< string > search_longest_words ( unsigned int longitud ) const;
 
     /**
-     * @brief busca las palabras más raras atentiendo a las puntuaciones
-     * @return la lista de palabras con mayor puntuación
+     * @brief Busca las palabras más raras atentiendo a las puntuaciones
+     * @return La lista de palabras con mayor puntuación
      */
     list< string > search_rarest_words () const;
 
     /**
      * @brief Muestra si una palabra está en el diccionario 
      *  y cumple los requisitos de la lista de letras
-     * @param palabra: palabra a comprobar
+     * @param palabra Palabra a comprobar
      * @return true si está dentro, false si no
      */
     bool pertenece_bolsa ( string palabra ) const;
 
+    /**
+     * @brief Comprueba que una palabra puede formarse atentiendo a la lista de letras generada
+     * @return true si se puede; si no, false
+     */
     bool can_be_formed ( string palabra ) const;
+
+    /**
+     * @brief Comprueba que una palabra está en el diccionario cargado
+     * @return true si se puede; si no, false
+     */
     bool can_be_found ( string palabra ) const;
 
     /**
      * @brief Devuelve la puntuación de una palabra
-     * @param word palabra a sacar la puntuación
-     * @return la puntuación de la palabra
+     * @param word Palabra a sacar la puntuación
+     * @return La puntuación de la palabra
      */
     unsigned int puntuacion_palabra ( string word ) const;
     

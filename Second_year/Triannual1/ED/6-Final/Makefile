@@ -10,7 +10,6 @@ all: $(BIN)/testdiccionario $(BIN)/testletras
 # ************ Generación de documentación ******************
 documentacion:
 	doxygen doc/Doxyfile
-
 	
 # ************ Compilación de módulos ************
 
