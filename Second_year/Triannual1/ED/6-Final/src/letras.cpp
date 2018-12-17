@@ -6,9 +6,8 @@ using namespace std;
 // ─── CONSTRUCTORES ──────────────────────────────────────────────────────────────
 //
 
-    // FIXME reorganizar constructores atendiendo al cálculo de frecuencias/puntuacion
-    Letras::Letras (    Diccionario  dic
-                    ,   unsigned int num_letras ) {
+    Bolsa_Letras::Bolsa_Letras (    Diccionario  dic
+                                ,   unsigned int num_letras ) {
 
         this->diccionario = dic;
         
@@ -18,11 +17,12 @@ using namespace std;
         generate_random_letters( num_letras );   
     }
 
+
     
-    Letras::Letras (    Diccionario dic
-                    ,   unsigned int score[26]  
-                    ,   unsigned int frec[26]   
-                    ,   unsigned int num_letras ) {
+    Bolsa_Letras::Bolsa_Letras (    Diccionario dic
+                                ,   unsigned int score[26]  
+                                ,   unsigned int frec[26]   
+                                ,   unsigned int num_letras ) {
 
         this->diccionario = dic;
 
@@ -35,8 +35,9 @@ using namespace std;
 
     }
 
+
     
-    Letras::Letras ( const Letras& otro ) {
+    Bolsa_Letras::Bolsa_Letras ( const Bolsa_Letras& otro ) {
         *this = otro;
     }
 
@@ -44,7 +45,7 @@ using namespace std;
 // ─── METODOS PRIVADOS ───────────────────────────────────────────────────────────
 //
 
-    void Letras::calculate_score () {
+    void Bolsa_Letras::calculate_score () {
         long int total_letras = 0;
 
         int maximo = 0, minimo = 100000;
@@ -73,7 +74,8 @@ using namespace std;
     }
 
 
-    void Letras::calculate_frequency () {
+
+    void Bolsa_Letras::calculate_frequency () {
         for ( size_t i = 0; i < 26; ++i )
             frecuencia[i] = 0;
 
@@ -83,8 +85,8 @@ using namespace std;
     }  
 
 
-    // FIXME calcular frecuencias
-    bool Letras::load_file ( string archivo ) {
+
+    bool Bolsa_Letras::load_file ( string archivo ) {
         /*
             Estructura:
             
@@ -148,7 +150,9 @@ using namespace std;
         }
     }
 
-    bool Letras::save_file ( string config_file ) {
+
+
+    bool Bolsa_Letras::save_file ( string config_file ) {
         ofstream salida ( config_file );
 
         if ( !salida ) {
@@ -170,43 +174,51 @@ using namespace std;
 // ─── INTERFACES ─────────────────────────────────────────────────────────────────
 //
 
-    size_t Letras::get_amount_letters () const {
+    size_t Bolsa_Letras::get_amount_letters () const {
         return lista_letras.size();
     }
 
     
-    list < char > Letras::get_list_letters () const {
+
+    list < char > Bolsa_Letras::get_list_letters () const {
         return lista_letras;
     }
 
+
     
-    void Letras::get_frecuencias ( int arr[26] ) const {
+    void Bolsa_Letras::get_frecuencias ( int arr[26] ) const {
         for ( int i = 0; i < 26; ++i )
             arr[i] = frecuencia[i];
     }
 
+
     
-    void Letras::get_puntuaciones ( int arr[26] ) const { 
+    void Bolsa_Letras::get_puntuaciones ( int arr[26] ) const { 
         for ( int i = 0; i < 26; ++i )
             arr[i] = puntuaciones[i];
     }
 
     
-    unsigned int Letras::get_frecuencia  ( const char letra ) const {
+
+    unsigned int Bolsa_Letras::get_frecuencia  ( const char letra ) const {
         if ( toupper(letra) - 65 >= 0 && toupper(letra) - 65 <= 25  )
             return frecuencia[ (int)toupper(letra) - 65 ];
         else
             return 0;
     }
     
-    unsigned int Letras::get_puntuacion  ( const char letra ) const {
+
+    
+    unsigned int Bolsa_Letras::get_puntuacion  ( const char letra ) const {
         if ( toupper(letra) - 65 >= 0 && toupper(letra) - 65 <= 25  )
             return puntuaciones[ (int)toupper(letra) - 65 ];
         else
             return 0;
     }
     
-    Diccionario Letras::get_diccionario () const {
+
+
+    Diccionario Bolsa_Letras::get_diccionario () const {
         return diccionario;
     }
 
@@ -214,7 +226,7 @@ using namespace std;
 // ─── CALCULOS ───────────────────────────────────────────────────────────────────
 //
 
-    unsigned int Letras::puntuacion_palabra ( string word ) const {
+    unsigned int Bolsa_Letras::puntuacion_palabra ( string word ) const {
         int sum = 0; 
             
         for ( auto letter: word )
@@ -224,12 +236,11 @@ using namespace std;
     };
 
 
-    list< string > Letras::search_longest_words ( unsigned int longitud ) const {
+
+    list< string > Bolsa_Letras::search_longest_words ( unsigned int longitud ) const {
         list < string > resultados;
         
         // NOTE La palabra más larga del español tiene 130 letras
-        
-
         for ( auto max_length = min( longitud, (unsigned int)130 ); 
                    max_length >= 1; --max_length ) {
 
@@ -237,7 +248,7 @@ using namespace std;
                 if ( palabra.size() != max_length )
                     continue;
                 
-                if ( pertenece_bolsa(palabra) )
+                if ( can_be_formed(palabra) )
                     resultados.push_back( palabra );
             }
 
@@ -250,13 +261,13 @@ using namespace std;
 
 
     
-    list< string > Letras::search_rarest_words () const {
+    list< string > Bolsa_Letras::search_rarest_words () const {
         list < string > resultados;
         int maximo = 0;
 
         for ( auto palabra: diccionario ) {
             if (    puntuacion_palabra( palabra ) >= maximo  
-                &&  pertenece_bolsa( palabra ) ) {
+                &&  can_be_formed( palabra ) ) {
             
                 if ( puntuacion_palabra(palabra) > maximo ) {
                     resultados.clear();
@@ -271,7 +282,12 @@ using namespace std;
     }
 
 
-    bool Letras::pertenece_bolsa ( string palabra ) const {
+
+    bool Bolsa_Letras::pertenece_bolsa ( string palabra ) const {
+        return can_be_formed(palabra) && can_be_found(palabra);
+    }
+
+    bool Bolsa_Letras::can_be_formed ( string palabra ) const {
         /*
             Para cada letra de la lista de letras, 
             el número de ocurrencias en la palabra debe ser menor o igual que
@@ -285,35 +301,30 @@ using namespace std;
                             ,  toupper(letra) ) != lista_letras.end(); 
         };
         
-        bool found;
+        // Comprobar que la palabra cumple los requisitos de la lista
+        if ( !all_of( palabra.begin(), palabra.end(), letter_belongs_list) )
+            return false;
+        
         int count_palabra, count_lista;
-
-        for ( auto entrada: diccionario ) {
-            found = true;
-
-            if ( palabra != entrada )
-                continue;
+        
+        for ( char letra: lista_letras ) {
+            count_palabra = count ( palabra.begin(), palabra.end(), tolower(letra) );
+            count_lista = count ( lista_letras.begin(), lista_letras.end(), letra );
             
-            // Comprobar que la palabra cumple los requisitos de la lista
-            if ( !all_of( palabra.begin(), palabra.end(), letter_belongs_list) )
-                continue;
-
-            for ( char letra: lista_letras ) {
-                count_palabra = count ( palabra.begin(), palabra.end(), tolower(letra) );
-                count_lista = count ( lista_letras.begin(), lista_letras.end(), letra );
-                
-                if ( count_palabra > count_lista ) {
-                    found = false;
-                    break;
-                }
+            if ( count_palabra > count_lista ) {
+                return false;
             }
-
-            if ( found )
-                return true;
         }
 
-        return false;
+        return true;
     }
+
+
+    bool Bolsa_Letras::can_be_found ( string palabra ) const {
+        return diccionario.word_exists( palabra );
+    }
+
+
     /*
     Supongamos que 
     A 7
@@ -331,7 +342,7 @@ using namespace std;
     Sea n un número generado aleatoriamente, n = 9
     Entonces, n => B
     */
-    void Letras::generate_random_letters( int numero ) {
+    void Bolsa_Letras::generate_random_letters( int numero ) {
         lista_letras.clear();
         
         int cota = 0;
@@ -367,7 +378,7 @@ using namespace std;
 // ─── SOBRECARGA DE OPERADORES ───────────────────────────────────────────────────
 //
 
-    Letras& Letras::operator = ( const Letras& otro ) {
+    Bolsa_Letras& Bolsa_Letras::operator = ( const Bolsa_Letras& otro ) {
         this->diccionario  = otro.diccionario;
         this->lista_letras = otro.lista_letras;
 
@@ -379,7 +390,9 @@ using namespace std;
         return *this;
     }
 
-    ostream& operator << ( ostream& os, const Letras& letras ) {
+
+
+    ostream& operator << ( ostream& os, const Bolsa_Letras& letras ) {
         os << "Letras generadas:\n";
         
         for ( auto letra: letras.lista_letras )

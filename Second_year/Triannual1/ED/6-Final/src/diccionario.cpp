@@ -6,15 +6,21 @@ Diccionario::Diccionario ( const Diccionario& diccionario ) {
     *this = diccionario;
 }
 
+
+
 size_t Diccionario::size() const {
     return datos.size();
 }
+
+
 
 bool Diccionario::word_exists ( const string & palabra ) const {
     return datos.find( palabra ) != datos.end() 
         ? true
         : false;
 }
+
+
 
 vector < string > Diccionario::length ( const size_t longitud ) const {
     vector < string > resultado;
@@ -26,14 +32,20 @@ vector < string > Diccionario::length ( const size_t longitud ) const {
     return resultado;
 }
 
+
+
 void Diccionario::add ( const string& nueva_palabra) {
     datos.insert( nueva_palabra );
 }
+
+
 
 Diccionario& Diccionario::operator= ( const Diccionario& diccionario ) {
     datos = diccionario.datos;
     return *this;
 }
+
+
 
 ostream& operator>> ( ostream& os, const Diccionario & diccionario ) {
     for ( auto palabra: diccionario )
@@ -41,6 +53,8 @@ ostream& operator>> ( ostream& os, const Diccionario & diccionario ) {
 
     return os;
 }
+
+
 
 istream& operator>> ( istream& is, Diccionario & diccionario ) {
     string palabra;
@@ -50,6 +64,8 @@ istream& operator>> ( istream& is, Diccionario & diccionario ) {
 
     return is;
 }
+
+
 
 ifstream& operator >> (ifstream& in, Diccionario& diccionario ) {
     string entrada;

@@ -4,7 +4,7 @@
 
 using namespace std;
 
-int juego_puntuaciones ( Letras letras ) { 
+int juego_puntuaciones ( Bolsa_Letras letras ) { 
     char opcion; 
     size_t amount_letters = letras.get_list_letters().size();
 
@@ -40,7 +40,7 @@ int juego_puntuaciones ( Letras letras ) {
     return 0;
 }
 
-int juego_longitud ( Letras& letras ) {
+int juego_longitud ( Bolsa_Letras& letras ) {
     char opcion;
     size_t amount_letters = letras.get_amount_letters();
 
@@ -110,10 +110,10 @@ int main ( int argc, char const *argv[] ) {
     Diccionario diccionario;    
     dic_file >> diccionario;
     
-    // Letras
+    // Bolsa_Letras
     string archivo_letras = argv[1];
     
-    Letras letras( diccionario, atoi(argv[3]) );
+    Bolsa_Letras letras( diccionario, atoi(argv[3]) );
     
 
     // ─────────────────────────────────────────────────────────── MODOS DE JUEGO ─────
