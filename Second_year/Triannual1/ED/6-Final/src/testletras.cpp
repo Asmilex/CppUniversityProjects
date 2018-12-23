@@ -87,7 +87,7 @@ int main ( int argc, char const *argv[] ) {
     // ────────────────────────────────────────────────────────── PARSE ARGUMENTS ─────    
     
     if ( argc != 5 ) {
-        cerr << "Parámetros: ./testletras letras diccionario num_letras {L/P}";
+        cerr << "Parámetros: ./testletras diccionario letras num_letras {L/P}";
         return 1;
     }
     
@@ -99,10 +99,10 @@ int main ( int argc, char const *argv[] ) {
     }
 
     // Diccionario
-    ifstream dic_file( argv[2] );
+    ifstream dic_file( argv[1] );
     
     if ( !dic_file ) {
-        cerr << "No se ha podido abrir el fichero " << argv[2] << endl;
+        cerr << "No se ha podido abrir el fichero " << argv[1] << endl;
 
         return 1;
     }
@@ -111,7 +111,7 @@ int main ( int argc, char const *argv[] ) {
     dic_file >> diccionario;
     
     // Bolsa_Letras
-    string archivo_letras = argv[1];
+    string archivo_letras = argv[2];
     
     Bolsa_Letras letras( diccionario, atoi(argv[3]) );
     
@@ -130,21 +130,11 @@ int main ( int argc, char const *argv[] ) {
     cin >> opcion;
 
     if ( toupper(opcion) ==  'S' ) {
-        if (letras.save_file( argv[1] ) )
+        if (letras.save_file( argv[2] ) )
             cout << "\nArchivo guardado correctamente\n";
         else
             cout << "\nNo se ha podido guardar el archivo\n";
     }
 
-    cout << "Quieres escribir las frecuencias en el fichero " << argv[1] << "? (S/N) ";
-
-    cin >> opcion; 
-    if ( toupper(opcion) ==  'S' ) {
-        if (letras.export_frecuencias( argv[1] ) )
-            cout << "\nArchivo guardado correctamente\n";
-        else
-            cout << "\nNo se ha podido guardar el archivo\n";
-    }
-    
     return 0;
 }
