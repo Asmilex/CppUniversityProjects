@@ -6,8 +6,8 @@ using namespace std;
 // ─── CONSTRUCTORES ──────────────────────────────────────────────────────────────
 //
 
-    Bolsa_Letras::Bolsa_Letras (    Diccionario  dic
-                                ,   unsigned int num_letras ) {
+    Bolsa_Letras::Bolsa_Letras (    const Diccionario  dic
+                                ,   const unsigned int num_letras ) {
 
         this->diccionario = dic;
         
@@ -19,10 +19,10 @@ using namespace std;
 
 
     
-    Bolsa_Letras::Bolsa_Letras (    Diccionario dic
-                                ,   unsigned int score[26]  
-                                ,   unsigned int frec[26]   
-                                ,   unsigned int num_letras ) {
+    Bolsa_Letras::Bolsa_Letras (    const Diccionario dic
+                                ,   const unsigned int score[26]  
+                                ,   const unsigned int frec[26]   
+                                ,   const unsigned int num_letras ) {
 
         this->diccionario = dic;
 
@@ -33,6 +33,16 @@ using namespace std;
 
         generate_random_letters( num_letras );
 
+    }
+
+
+
+    Bolsa_Letras::Bolsa_Letras ( Diccionario dic, string file, int n ) {
+        this->diccionario = dic;
+
+        load_file( file );
+
+        generate_random_letters(n);
     }
 
 
@@ -86,7 +96,7 @@ using namespace std;
 
 
 
-    bool Bolsa_Letras::load_file ( string archivo ) {
+    bool Bolsa_Letras::load_file ( const string archivo ) {
         /*
             Estructura:
             
@@ -151,8 +161,41 @@ using namespace std;
     }
 
 
+    /*
+        Formato:
 
-    bool Bolsa_Letras::save_file ( string config_file ) {
+            #Letras FAbs. Frel.
+            A 16 23.04
+            B 2 2.88
+            ...
+            Z 1 1.44
+    */
+    bool Bolsa_Letras::export_frecuencias ( const string file ) const {
+        int letras_totales = 0;
+
+        for ( auto palabra: diccionario )
+            letras_totales += palabra.size();
+        
+        ofstream salida ( file );
+
+        if ( !salida ) {
+            cerr << "No se ha podido crear el archivo de destino";
+            return false;
+        }
+
+        salida << "#Letra FAbs. Frel.\n";
+
+        for ( size_t i = 0; i < 26; ++i ) {
+            salida << (char)(i+65 ) << "  " << frecuencia[i]
+                << "  " << ( (float)(frecuencia[i]) / letras_totales ) * 100 << endl;
+        }
+
+        return true;
+    }
+
+
+
+    bool Bolsa_Letras::save_file ( const string config_file ) const {
         ofstream salida ( config_file );
 
         if ( !salida ) {
@@ -226,7 +269,7 @@ using namespace std;
 // ─── CALCULOS ───────────────────────────────────────────────────────────────────
 //
 
-    unsigned int Bolsa_Letras::puntuacion_palabra ( string word ) const {
+    unsigned int Bolsa_Letras::puntuacion_palabra ( const string word ) const {
         int sum = 0; 
             
         for ( auto letter: word )
@@ -237,7 +280,7 @@ using namespace std;
 
 
 
-    list< string > Bolsa_Letras::search_longest_words ( unsigned int longitud ) const {
+    list< string > Bolsa_Letras::search_longest_words ( const unsigned int longitud ) const {
         list < string > resultados;
         
         // NOTE La palabra más larga del español tiene 130 letras
@@ -283,11 +326,11 @@ using namespace std;
 
 
 
-    bool Bolsa_Letras::pertenece_bolsa ( string palabra ) const {
+    bool Bolsa_Letras::pertenece_bolsa ( const string palabra ) const {
         return can_be_formed(palabra) && can_be_found(palabra);
     }
 
-    bool Bolsa_Letras::can_be_formed ( string palabra ) const {
+    bool Bolsa_Letras::can_be_formed ( const string palabra ) const {
         /*
             Para cada letra de la lista de letras, 
             el número de ocurrencias en la palabra debe ser menor o igual que
@@ -320,7 +363,7 @@ using namespace std;
     }
 
 
-    bool Bolsa_Letras::can_be_found ( string palabra ) const {
+    bool Bolsa_Letras::can_be_found ( const string palabra ) const {
         return diccionario.word_exists( palabra );
     }
 
@@ -342,7 +385,7 @@ using namespace std;
     Sea n un número generado aleatoriamente, n = 9
     Entonces, n => B
     */
-    void Bolsa_Letras::generate_random_letters( int numero ) {
+    void Bolsa_Letras::generate_random_letters( const int numero ) {
         lista_letras.clear();
         
         int cota = 0;

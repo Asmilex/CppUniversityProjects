@@ -25,7 +25,7 @@ private:
     unsigned int  puntuaciones [26] = {0};  // NOTE ordenadas de A - Z. Sin Ñ
     unsigned int  frecuencia   [26] = {0};
 
-    static const unsigned int default_random_letters = 8;
+    static const unsigned int default_random_letters = 0;
 
 //
 // ─── METODOS PRIVADOS ───────────────────────────────────────────────────────────
@@ -52,7 +52,7 @@ private:
             ...
      * @return true si se ha conseguido. Si ha habido fallos, false
      */
-    bool load_file ( string config_file );
+    bool load_file ( const string config_file );
 
 public:
 
@@ -66,8 +66,8 @@ public:
      * @param num_letras Número de letras a generar
      * @note Las frecuencias y las puntuaciones se consiguen a partir del diccionario
      */
-    Bolsa_Letras (    Diccionario  dic
-                  ,   unsigned int num_letras = default_random_letters );
+    Bolsa_Letras (    const Diccionario  dic
+                  ,   const unsigned int num_letras = default_random_letters );
     
     /**
      * @brief Constructor parametrizado
@@ -76,10 +76,21 @@ public:
      * @param frec Frecuencia de las letras
      * @param num_letras Número de letras a generar
      */
-    Bolsa_Letras (    Diccionario dic
-                  ,   unsigned int score[26]
-                  ,   unsigned int frec[26] 
-                  ,   unsigned int num_letras = default_random_letters );
+    Bolsa_Letras (    const Diccionario dic
+                  ,   const unsigned int score[26]
+                  ,   const unsigned int frec[26] 
+                  ,   const unsigned int num_letras = default_random_letters );
+
+    /**
+     * @brief Constructor de carga de archivo
+     * @param dic Diccionario a cargar
+     * @param config_file Archivo a abrir para cargar su contenido
+     * @param n Número de letras a generar
+     * Este tiene la estructura indicada en la función load_file
+     */
+    Bolsa_Letras (    const Diccionario dic
+                  ,   const string file
+                  ,   const int n = default_random_letters );
 
     /**
      * @brief Constructor de copia
@@ -143,7 +154,13 @@ public:
      * @param config_file Archivo donde guardar
      * @return true si ha funcionado, false si ha habido errores
      */
-    bool save_file ( string config_file );
+    bool save_file ( const string config_file ) const;
+
+    /**
+     * @brief Exporta las frecuencias absolutas y relativas al archivo indicado
+     * @param export_file 
+     */
+    bool export_frecuencias ( const string file ) const;
 
 //
 // ─── CALCULOS ───────────────────────────────────────────────────────────────────
@@ -153,14 +170,14 @@ public:
      * @brief Genera un cierto número de letras aleatorias a partir de la frecuencia
      * @param numero Cuántas letras generar
      */
-    void generate_random_letters ( int numero );
+    void generate_random_letters ( const int numero );
     
     /**
      * @brief Busca las palabras más largas posibles según al lista de letras
      * @param longitud Longitud máxima que buscar
      * @return :as palabras más largas
      */
-    list< string > search_longest_words ( unsigned int longitud ) const;
+    list< string > search_longest_words ( const unsigned int longitud ) const;
 
     /**
      * @brief Busca las palabras más raras atentiendo a las puntuaciones
@@ -174,26 +191,26 @@ public:
      * @param palabra Palabra a comprobar
      * @return true si está dentro, false si no
      */
-    bool pertenece_bolsa ( string palabra ) const;
+    bool pertenece_bolsa ( const string palabra ) const;
 
     /**
      * @brief Comprueba que una palabra puede formarse atentiendo a la lista de letras generada
      * @return true si se puede; si no, false
      */
-    bool can_be_formed ( string palabra ) const;
+    bool can_be_formed ( const string palabra ) const;
 
     /**
      * @brief Comprueba que una palabra está en el diccionario cargado
      * @return true si se puede; si no, false
      */
-    bool can_be_found ( string palabra ) const;
+    bool can_be_found ( const string palabra ) const;
 
     /**
      * @brief Devuelve la puntuación de una palabra
      * @param word Palabra a sacar la puntuación
      * @return La puntuación de la palabra
      */
-    unsigned int puntuacion_palabra ( string word ) const;
+    unsigned int puntuacion_palabra ( const string word ) const;
     
 //
 // ─── SOBRECARGA DE OPERADORES ───────────────────────────────────────────────────

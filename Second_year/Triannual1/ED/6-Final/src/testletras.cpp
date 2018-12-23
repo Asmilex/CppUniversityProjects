@@ -136,5 +136,15 @@ int main ( int argc, char const *argv[] ) {
             cout << "\nNo se ha podido guardar el archivo\n";
     }
 
+    cout << "Quieres escribir las frecuencias en el fichero " << argv[1] << "? (S/N) ";
+
+    cin >> opcion; 
+    if ( toupper(opcion) ==  'S' ) {
+        if (letras.export_frecuencias( argv[1] ) )
+            cout << "\nArchivo guardado correctamente\n";
+        else
+            cout << "\nNo se ha podido guardar el archivo\n";
+    }
+    
     return 0;
 }
