@@ -4,14 +4,14 @@
 
 using namespace std;
 
-int juego_puntuaciones ( Bolsa_Letras letras ) { 
-    char opcion; 
+int juego_puntuaciones ( Bolsa_Letras letras ) {
+    char opcion;
     size_t amount_letters = letras.get_list_letters().size();
 
     do {
         letras.generate_random_letters( amount_letters );
         list< char > lista_letras = letras.get_list_letters();
-        
+
         cout << "\nLista de lerras generadas:\n";
         for ( auto letra: lista_letras )
             cout << letra << " ";
@@ -24,7 +24,7 @@ int juego_puntuaciones ( Bolsa_Letras letras ) {
             cout << "La puntuación de tu palabra es " << letras.puntuacion_palabra(sol_user) << endl;
         else
             cout << "La palabra no pertenece al diccionario\n";
-    
+
         cout << "\nHold my beer: " << endl;
         auto palabras = letras.search_rarest_words();
 
@@ -34,7 +34,7 @@ int juego_puntuaciones ( Bolsa_Letras letras ) {
         cout << "\n\n¿Quieres seguir jugando? (S/N) ";
         cin >> opcion;
 
-        
+
     } while ( toupper(opcion) == 'S' );
 
     return 0;
@@ -45,11 +45,11 @@ int juego_longitud ( Bolsa_Letras& letras ) {
     size_t amount_letters = letras.get_amount_letters();
 
     //cout << letras;
-    
+
     do {
         letras.generate_random_letters( amount_letters );
         list< char > lista_letras = letras.get_list_letters();
-        
+
         cout << "\nLista de lerras generadas:\n";
         for ( auto letra: lista_letras )
             cout << letra << " ";
@@ -61,11 +61,11 @@ int juego_longitud ( Bolsa_Letras& letras ) {
         if ( !letras.pertenece_bolsa(sol_user) )
             cout << "\nLa palabra que me has dado no está en el diccionario\n";
         else
-            cout << "\nPuntuación de la palabra: " << sol_user.size() << endl; 
+            cout << "\nPuntuación de la palabra: " << sol_user.size() << endl;
 
-        
+
         cout << "\nBúsqueda de palabras con una longitud máxima de " << letras.get_amount_letters() << ":\n";
-        
+
         auto palabras = letras.search_longest_words( amount_letters );
         for ( auto word: palabras )
             cout << word << " (" << word.size() << "), " ;
@@ -84,14 +84,14 @@ int juego_longitud ( Bolsa_Letras& letras ) {
 
 int main ( int argc, char const *argv[] ) {
 
-    // ────────────────────────────────────────────────────────── PARSE ARGUMENTS ─────    
-    
+    // ────────────────────────────────────────────────────────── PARSE ARGUMENTS ─────
+
     if ( argc != 5 ) {
         cerr << "Parámetros: ./testletras diccionario letras num_letras {L/P}";
         return 1;
     }
-    
-    if (   strcmp( argv[4], "L" ) != 0 
+
+    if (   strcmp( argv[4], "L" ) != 0
         && strcmp( argv[4], "P" ) != 0 ) {
 
         cerr << "El último parámetro no es ni L ni P";
@@ -100,21 +100,21 @@ int main ( int argc, char const *argv[] ) {
 
     // Diccionario
     ifstream dic_file( argv[1] );
-    
+
     if ( !dic_file ) {
         cerr << "No se ha podido abrir el fichero " << argv[1] << endl;
 
         return 1;
     }
 
-    Diccionario diccionario;    
+    Diccionario diccionario;
     dic_file >> diccionario;
-    
+
     // Bolsa_Letras
     string archivo_letras = argv[2];
-    
+
     Bolsa_Letras letras( diccionario, atoi(argv[3]) );
-    
+
 
     // ─────────────────────────────────────────────────────────── MODOS DE JUEGO ─────
 
@@ -125,7 +125,7 @@ int main ( int argc, char const *argv[] ) {
     else
         juego_longitud( letras );
 
-    char opcion; 
+    char opcion;
     cout << "\n¿Quieres guardar los resultados en el fichero " << argv[1] << "? (S/N) ";
     cin >> opcion;
 

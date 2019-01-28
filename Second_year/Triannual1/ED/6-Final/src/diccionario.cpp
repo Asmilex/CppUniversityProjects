@@ -15,7 +15,7 @@ size_t Diccionario::size() const {
 
 
 bool Diccionario::word_exists ( const string & palabra ) const {
-    return datos.find( palabra ) != datos.end() 
+    return datos.find( palabra ) != datos.end()
         ? true
         : false;
 }
@@ -28,7 +28,7 @@ vector < string > Diccionario::length ( const size_t longitud ) const {
     for ( auto palabra: datos )
         if ( palabra.size() == longitud )
             resultado.push_back( palabra );
-    
+
     return resultado;
 }
 

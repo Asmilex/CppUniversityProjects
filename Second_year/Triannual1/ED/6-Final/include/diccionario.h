@@ -12,7 +12,7 @@ using namespace std;
 // ────────────────────────────────────────────────────────────────────────────────────
 //
 
-class Diccionario { 
+class Diccionario {
 private:
 
 	set <string> datos;
@@ -45,7 +45,7 @@ public:
 	/**
 	 * @brief Consulta el tamaño
 	 * @return Cantidad de palabras almacenadas
-	 */	
+	 */
 	size_t size () const;
 
 	/**

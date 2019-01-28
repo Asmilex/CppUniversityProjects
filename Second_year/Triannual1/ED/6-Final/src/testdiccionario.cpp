@@ -8,7 +8,7 @@
 using namespace std;
 
 int main ( int argc, char * argv[] ) {
-    if ( argc != 2) {
+    if ( argc != 2 ) {
         cerr  << "Parámetros:" << endl
               << "\t1.- Fichero con las palabras";
 
@@ -18,7 +18,7 @@ int main ( int argc, char * argv[] ) {
 // ─────────────────────────────────────────────────── EXTRACCION DICCIONARIO ─────
 
     ifstream f( argv[1] );
-    
+
     if ( !f ) {
         cerr << "No se ha podido abrir el fichero " << argv[1] << endl;
 
@@ -33,7 +33,7 @@ int main ( int argc, char * argv[] ) {
     cout << "Diccionario cargado\n";
 
 // ───────────────────────────────────────────────────────── TEST DE LONGITUD ─────
-    
+
     int longitud;
 
     cout << "\n¿De qué longitud quieres ver las palabras?\n";
@@ -58,8 +58,8 @@ int main ( int argc, char * argv[] ) {
         cout << "Existe\n";
     else
         cout << "No existe\n";
-    
-    
-    
+
+
+
     return 0;
 }

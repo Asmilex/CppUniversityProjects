@@ -42,16 +42,26 @@ La estructura del proyecto es la siguiente:
     - `cantidad_letras` neceista que `testletras` sea ejecutado antes
     - `diccionario.cpp` y `letras.cpp` recoge las implementaciones de las respectivas cabeceras
 
-## diccionario
+## Diccionario
 
 El diseño es muy similar al propuesto en el guión. Sin embargo, se ha cambiado el nombre de los métodos al inglés. En general, sus palabras son más cortas e identificables. Estandariza nomenclaturas como `size()`.
 La implementación es muy sencilla y no hay demasiado que comentar.
 
-## letras
+## Letras
 
 ### Overview
 
 Esta está ideada de manera diferente a la propuesta. Inspeccionemos la parte privada:
+
+```c++
+Diccionario diccionario;
+    
+list < char > lista_letras      = {0};
+unsigned int  puntuaciones [26] = {0};  // NOTE ordenadas de A - Z. Sin Ñ
+unsigned int  frecuencia   [26] = {0};
+
+static const unsigned int default_random_letters = 0;
+```
 
 `Diccionario diccionario`: lista de palabras disponibles. Se usará a la hora de calcular frecuencias, puntuaciones (a no ser que estén especificadas), búsqueda de palabras o formaciones.
 
@@ -67,6 +77,24 @@ Usamos `static const unsigned int default_random_letters = 0;` para indicar que 
 
 Los constructores juegan un papel fundamental aquí
 
+```c++
+Bolsa_Letras (    const Diccionario  dic
+              ,   const unsigned int num_letras = default_random_letters );
+
+Bolsa_Letras (    const Diccionario  dic
+              ,   const unsigned int score[26]
+              ,   const unsigned int frec[26] 
+              ,   const unsigned int num_letras = default_random_letters );
+
+Bolsa_Letras (    const Diccionario dic
+              ,   const string      file
+              ,   const int         n = default_random_letters );
+
+Bolsa_Letras ( const Bolsa_Letras& otro );
+```
+
+
+
 El más básico especifica un diccionario y se calculan las frecuencias y las puntuaciones a partir de sus palabras. Además, puede generar letras.
 También es posible indicar directamente las frecuencias y las puntuaciones, para aligerar la carga de trabajo.
 La siguiente posibilidad es indicar el diccionario y un archivo. Este archivo corresponde al punto $3.2.2$ del guión. A efectos prácticos, es una variación de la opción anterior
@@ -78,35 +106,43 @@ Si no viene comentado aquí, es porque no hay mucho que destacar de ellas. De to
 
 Las funciones más interesantes son las siguientes:
 
+```c++
+void generate_random_letters ( const int numero );
+list< string > search_longest_words ( const unsigned int longitud ) const;
+list< string > search_rarest_words () const;
+bool can_be_formed ( const string palabra ) const;
+```
+
 #### can_be_formed()
 
 Se supone que la lista de letras generadas aleatoriamente no está vacía
-El comentario es clave:
+
+###### El comentario es clave:
 
 > Para cada letra de la lista de letras, el número de ocurrencias en la alabra debe ser menor o igual que las veces que está presente en la lista
 
 Por tanto, usamos una lambda para comprobar si una letra está en la lista. Si todas lo están, por tanto, existe la posibilidad de que pueda ser formada. Existe, dado que debemos comprobar que la cantidad de veces que aparece una letra en la palabra **no debe superar** a las que aparece en la lista. Si la lista es `C A S`, no se puede formar *casa*.
 Nótese el uso de C++ moderno. Simplifica mucho el diseño y mejora la legibilidad. Uno de mis fundamentos a la hora de programa es hacer el código lo más sencillo y legible (ver Kary Coding Standard)
 
-### generate_random_letters ()
+#### generate_random_letters ()
 
 Recogido en un comentario:
 
 Supongamos que tenemos la siguiente distribución de letras:
-    $$A: x_0, B: x_1, ..., Z: x_{26}$$
+​    $$A: x_0, B: x_1, ..., Z: x_{26}$$
 
 Se puede interpetrar como 
-    $$A, A, ...^{\times x_0}, A, B, ... ^{\times x_1}, B, ... ...,Y ,Z, ...^{\times x_{26}}, Z$$
+​    $$A, A, ...^{\times x_0}, A, B, ... ^{\times x_1}, B, ... ...,Y ,Z, ...^{\times x_{26}}, Z$$
 
 Entonces, generamos un número aleatorio con una seed entre $[x_0, \sum_{i=0}^{26}{x_i}]$. Cuando 
-    $$\sum_{i=0}^{N}{x_i} \leq n < \sum_{i=0}^{M}{x_i}$$
+​    $$\sum_{i=0}^{N}{x_i} \leq n < \sum_{i=0}^{M}{x_i}$$
 Sabemos que la letra generada es la correspondiente a $N+65$. El 65 viene de trasladar el intervalo $[0, 26]$ a $[65, 91]$, correspondientes a su valor en ASCII.
 
-### seach_longest_words y search_rarest_words
-
-## Programas
+#### seach_longest_words y search_rarest_words
 
 Su funcionamiento es muy similar. Recorren las palabras del diccionario buscando los requisitos, de mayor a menor (para sacar las más valiosas en una iteración)
+
+## Programas
 
 ### testdiccionario
 

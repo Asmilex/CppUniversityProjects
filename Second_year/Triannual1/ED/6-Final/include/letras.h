@@ -16,11 +16,11 @@ using namespace std;
 // ──────────────────────────────────────────────────────────────────────────
 //
 
-class Bolsa_Letras { 
+class Bolsa_Letras {
 private:
 
     Diccionario diccionario;
-    
+
     list < char > lista_letras      = {0};
     unsigned int  puntuaciones [26] = {0};  // NOTE ordenadas de A - Z. Sin Ñ
     unsigned int  frecuencia   [26] = {0};
@@ -46,7 +46,7 @@ private:
     /**
      * @brief Carga las frecuencias y las puntuaciones reflejadas en el archivo
      * @param config_file Archivo a cargar
-     * Formato del archivo: 
+     * Formato del archivo:
             #Letra Cantidad Puntos
             A   12   1
             ...
@@ -61,14 +61,14 @@ public:
 //
 
     /**
-     * @brief Constructor por parámetros. 
+     * @brief Constructor por parámetros.
      * @param dic Diccionario a cargar
      * @param num_letras Número de letras a generar
      * @note Las frecuencias y las puntuaciones se consiguen a partir del diccionario
      */
     Bolsa_Letras (    const Diccionario  dic
                   ,   const unsigned int num_letras = default_random_letters );
-    
+
     /**
      * @brief Constructor parametrizado
      * @param dic Diccionario a usar
@@ -78,7 +78,7 @@ public:
      */
     Bolsa_Letras (    const Diccionario dic
                   ,   const unsigned int score[26]
-                  ,   const unsigned int frec[26] 
+                  ,   const unsigned int frec[26]
                   ,   const unsigned int num_letras = default_random_letters );
 
     /**
@@ -124,13 +124,13 @@ public:
      * @param arr Array donde almacenarlas
      */
     void get_frecuencias ( int arr[26] )      const;
-   
+
     /**
      * @brief Devuelve la lista de puntuaciones total
      * @param arr Array donde almacenarlas
      */
-    void get_puntuaciones( int arr[26] )      const; 
-    
+    void get_puntuaciones( int arr[26] )      const;
+
     /**
      * @brief Devuelve la frecuencia de una letra en específico
      * @return Frecuencia de la letra
@@ -158,7 +158,7 @@ public:
 
     /**
      * @brief Exporta las frecuencias absolutas y relativas al archivo indicado
-     * @param export_file 
+     * @param export_file
      */
     bool export_frecuencias ( const string file ) const;
 
@@ -171,7 +171,7 @@ public:
      * @param numero Cuántas letras generar
      */
     void generate_random_letters ( const int numero );
-    
+
     /**
      * @brief Busca las palabras más largas posibles según al lista de letras
      * @param longitud Longitud máxima que buscar
@@ -186,7 +186,7 @@ public:
     list< string > search_rarest_words () const;
 
     /**
-     * @brief Muestra si una palabra está en el diccionario 
+     * @brief Muestra si una palabra está en el diccionario
      *  y cumple los requisitos de la lista de letras
      * @param palabra Palabra a comprobar
      * @return true si está dentro, false si no
@@ -211,7 +211,7 @@ public:
      * @return La puntuación de la palabra
      */
     unsigned int puntuacion_palabra ( const string word ) const;
-    
+
 //
 // ─── SOBRECARGA DE OPERADORES ───────────────────────────────────────────────────
 //
